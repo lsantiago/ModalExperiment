@@ -394,19 +394,20 @@
                                 </div>
                                 <br />
                                 <div class="form-group">
-                                    <asp:Label ID="lblPA" runat="server" Text="&#916;pa" class="col-md-2 control-label"></asp:Label>
-                                    <div class="col-md-10">
-                                        <asp:TextBox ID="tbPA" runat="server" CssClass="form-control input-sm" placeholder="Incremento de tiempo"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="form-group">
                                     <asp:Label ID="lblTF" runat="server" Text="tf" class="col-md-2 control-label"></asp:Label>
                                     <div class="col-md-10">
                                         <asp:TextBox ID="tbTF" runat="server" CssClass="form-control input-sm" placeholder="Tiempo final"></asp:TextBox>
                                     </div>
                                 </div>
                                 <br />
+                                <div class="form-group">
+                                    <asp:Label ID="lblPA" runat="server" Text="&#916;pa" class="col-md-2 control-label"></asp:Label>
+                                    <div class="col-md-10">
+                                        <asp:TextBox ID="tbPA" runat="server" CssClass="form-control input-sm" placeholder="Incremento de tiempo"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <br />
+                                
                                 <br />
                                 <div class="form-group">
 

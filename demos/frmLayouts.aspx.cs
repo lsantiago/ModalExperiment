@@ -33,7 +33,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         // lectura de etiquetas
         char[] delimiterChars = {','};  // ' ', ',', '.', ':', '\t'
 
-        using (StreamReader sr = new StreamReader("C:\\prueba.txt", false))
+        using (StreamReader sr = new StreamReader("C:\\Modal\\output.txt", false))
         {
             string line;
             while ((line = sr.ReadLine()) != null)
