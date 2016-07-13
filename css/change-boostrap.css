@@ -1,0 +1,9 @@
+﻿.fixed-panel {
+  min-height: 10;
+  max-height: 10;
+  overflow-y: scroll;
+}
+
+.panel-height {
+  height: 220px; / change according to your requirement/
+}
