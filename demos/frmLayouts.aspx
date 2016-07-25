@@ -18,6 +18,202 @@
 
     <!-- Valiation data -->
     <script>
+        /*
+        $(document).ready(function () {
+            $("#gradoLibertad").on('click', graficarPropiedad("bar-area", "Un1", "1"));
+        });*/
+
+        function obtenerSimboloPropiedad(txtPropiedad) {
+            console.log("Propiedad a buscar: " + txtPropiedad);
+
+            // lista de propiedades
+            var propiedades = [];
+            var significadoPropiedades = [];
+
+            // siglas de propiedades                                               
+            //                                              Ctte.
+            propiedades[0] = ['u', 'up', 'upp', 'Ek', 'Es', 'Ei', 'Fs', 'Un1'];
+            propiedades[1] = ['u', 'up', 'upp', 'Ek', 'Es', 'Ei', 'Ed', 'Fs', 'Fd', 'Ft', 'Un1'];
+            propiedades[2] = ['Un1'];
+            propiedades[3] = ['Un1'];
+
+            significadoPropiedades[0] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Fuerza Elástica', 'Desplazamiento Nodal Total'];
+            significadoPropiedades[1] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Energía de Disipación', 'Fuerza Elástica', 'Fuerza Externa', 'Fuerza Total', 'Desplazamiento Nodal Total'];
+            significadoPropiedades[2] = ['Desplazamiento Nodal Total'];
+            significadoPropiedades[3] = ['Desplazamiento Nodal Total'];
+
+
+            // obtiene el tipo de analísis modal
+            var categoria = $('#<%= rbCategoria.ClientID %> input:checked').val() - 3;
+            console.log("Categoria " + categoria);
+            var posicionPropiedad = -1;
+            for (var i = 0; i < significadoPropiedades[categoria].length; i++) {
+                if (significadoPropiedades[categoria][i] == txtPropiedad) {
+                    posicionPropiedad = i;
+                }
+            }
+
+            console.log("Posicion de la propiedad " + posicionPropiedad);
+            return propiedades[categoria][posicionPropiedad];
+        }
+
+        function graficarPropiedad(idControl, ctrlPropiedad, ctrlGradoLibertad) {
+            console.log(idControl);
+            console.log("Propiedad " + ctrlPropiedad);
+
+            var data_Propiedad = obtenerSimboloPropiedad($("#" + ctrlPropiedad).val());
+            var data_GradoLibertad = $("#" + ctrlGradoLibertad).val();
+
+            console.log("Obteniendo la propiedad " + data_Propiedad);
+
+
+            /*var jsonData = JSON.stringify({
+                valPropiedad: data_Propiedad,
+                valGradoLibertad: data_GradoLibertad
+            });*/
+
+            var actionData = "{'propiedad': '" + data_Propiedad + "', 'gradoLibertad': '" + data_GradoLibertad + "'}";
+
+            //console.log(jsonData);
+
+            
+            $.ajax({
+                type: "POST",
+                url: "frmLayouts.aspx/getTiempoAndPropiedad",
+                data: actionData,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    // captura los datos de la propiedad desde el archivo de resultados
+                    var aData = msg.d;
+
+
+                    var aLabels = aData[0];
+                    var aDatasets = aData[1];
+
+
+                    var data = {
+                        labels: aLabels,
+                        datasets: [{
+                            label: $("#propiedad").val(),
+                            //fillColor: "rgba(220,220,220,0.2)",
+                            fillColor: 'rgba(0,0,0,0)',
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            pointRadius: 0,
+                            data: aDatasets
+                        }]
+                    }
+
+
+                    var ctx = document.getElementById(idControl).getContext("2d");
+                    ctx.canvas.height = 300;  // setting height of canvas
+                    ctx.canvas.width = 500; // setting width of canvas
+                    
+                    var myLineChart = new Chart(ctx, {
+                        type: 'line',
+                        // Fill style of the legend box
+                        fillStyle: Color,
+                        hidden: false,
+                        fill: false,
+                        legend: {
+                            display: true,
+                            labels: {
+                                fontColor: 'rgb(255, 99, 132)'
+                            }
+                        },
+                        data: data,
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    display: false
+                                }]
+                            }
+                        }
+                    });
+                }
+            });
+            
+            
+        }
+
+        // establece los valores de las propiedades y grado de libertad
+        function asignarPropiedadControles(ctrlPropiedad, ctrlGradoLibertad) {
+            // tipos de análisis modal
+            var VIBRACION_LIBRE_NO_AMORTIGUADA = 3;
+            var VIBRACION_LIBRE_AMORTIGUADA = 4;
+            var VIBRACION_ARMONICA_NO_AMORTIGUADA = 5;
+            var VIBRACION_ARMONICA_AMORTIGUADA = 6;
+
+
+            var significadoPropiedades = [];
+
+
+
+            significadoPropiedades[0] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Fuerza Elástica', 'Desplazamiento Nodal Total'];
+            significadoPropiedades[1] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Energía de Disipación', 'Fuerza Elástica', 'Fuerza Externa', 'Fuerza Total', 'Desplazamiento Nodal Total'];
+            significadoPropiedades[2] = ['Desplazamiento Nodal Total'];
+            significadoPropiedades[3] = ['Desplazamiento Nodal Total'];
+
+            var ctrlNroPisos = document.getElementById('ddlNCL');
+            var nroPisos = Number(ctrlNroPisos.value);
+            var select = document.getElementById(ctrlGradoLibertad);
+
+            // se agregan los grados de libertad
+            $('#'+ctrlGradoLibertad).empty();
+            for (var i = nroPisos; i >= 1; --i) {
+                var option = document.createElement('option');
+                option.text = option.value = i;
+                select.add(option, 0);
+            }
+
+            select.selectedIndex = 0;
+
+            // se agrega las propiedades
+            console.log(significadoPropiedades[0].length);
+
+            // obtiene el tipo de analísis modal
+            var categoria = $('#<%= rbCategoria.ClientID %> input:checked').val();
+
+            // se agregan las propiedades a la lista de "propiedades"
+            if (categoria == VIBRACION_LIBRE_NO_AMORTIGUADA) {
+                agregarPropiedades(significadoPropiedades[0], ctrlPropiedad);
+            } else if (categoria == VIBRACION_LIBRE_AMORTIGUADA) {
+                agregarPropiedades(significadoPropiedades[1], ctrlPropiedad);
+            } else if (categoria == VIBRACION_ARMONICA_NO_AMORTIGUADA) {
+                agregarPropiedades(significadoPropiedades[2], ctrlPropiedad);
+            } else if (categoria == VIBRACION_ARMONICA_AMORTIGUADA) {
+                agregarPropiedades(significadoPropiedades[3], ctrlPropiedad);
+            }
+        }
+
+        function agregarPropiedades(arreglo, ctrlPropiedad) {
+            $('#' + ctrlPropiedad).empty();
+
+            var select = document.getElementById(ctrlPropiedad);
+            var long_arreglo = arreglo.length;
+            for (var i = long_arreglo - 1; i >= 0; --i) {
+                var option = document.createElement('option');
+                option.text = arreglo[i];
+                select.add(option, 0);
+            }
+
+            select.selectedIndex = 0;
+
+        }
+
+
+        function loadConfiguracionCtrlsGraficos() {
+            asignarPropiedadControles("propiedad", "gradoLibertad");
+            asignarPropiedadControles("propiedadSegundoGrafico", "gradoLibertadSegundoGrafico");
+            asignarPropiedadControles("propiedadTercerGrafico", "gradoLibertadTercerGrafico");
+            asignarPropiedadControles("propiedadCuartoGrafico", "gradoLibertadCuartoGrafico");
+        }
+
+        
         function HideCtrlsInput(ddlId) {
             var NUM_FIL = 30;
             var NUM_COL = 8;
@@ -131,9 +327,7 @@
 
                     var aLabels = aData[0];
                     var aDatasets1 = aData[1];
-                    var aDatasets2 = aData[2];
-                    var aDatasets3 = aData[3];
-                    var aDatasets4 = aData[4];
+                    
 
                     var data = {
                         labels: aLabels,
@@ -146,39 +340,8 @@
                             pointStrokeColor: "#fff",
                             pointHighlightFill: "#fff",
                             pointHighlightStroke: "rgba(220,220,220,1)",
+                            pointRadius: 0,
                             data: aDatasets1
-                        },
-                         {
-                             label: "up",
-                             //fillColor: "rgba(151,187,205,0.2)",
-                             fillColor: 'rgba(0,0,0,0)',
-                             strokeColor: "rgba(151,187,205,1)",
-                             pointColor: "rgba(151,187,205,1)",
-                             pointStrokeColor: "#fff",
-                             pointHighlightFill: "#fff",
-                             pointHighlightStroke: "rgba(151,187,205,1)",
-                             data: aDatasets2
-                         },
-                        {
-                            label: "upp",
-                            //fillColor: "rgba(151,187,205,0.2)",
-                            fillColor: 'rgba(0,0,0,0)',
-                            strokeColor: "rgba(151,187,205,1)",
-                            pointColor: "rgba(151,187,205,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(151,187,205,1)",
-                            data: aDatasets3
-                        },
-                        {
-                            label: "ek",
-                            fillColor: "rgba(151,187,205,0.2)",
-                            strokeColor: "rgba(151,187,205,1)",
-                            pointColor: "rgba(151,187,205,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(151,187,205,1)",
-                            data: aDatasets4
                         }]
                     }
 
@@ -204,7 +367,7 @@
                             pointStrokeColor: "#fff",
                             pointHighlightFill: "#fff",
                             pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: mydata
+                            data: aDatasets1
                         }]
                     }
 
@@ -218,11 +381,11 @@
                             pointStrokeColor: "#fff",
                             pointHighlightFill: "#fff",
                             pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: aDatasets3
+                            data: aDatasets1
                         }]
                     }
 
-                    var ctx = document.getElementById("bar-area").getContext("2d");
+                    var ctx = document.getElementById("chartPrimerGrafico").getContext("2d");
                     ctx.canvas.height = 300;  // setting height of canvas
                     ctx.canvas.width = 500; // setting width of canvas
                     //var lineChart = new Chart(ctx).Line(data, {bezierCurve: false});
@@ -240,7 +403,14 @@
                                 fontColor: 'rgb(255, 99, 132)'
                             }
                         },
-                        data: data
+                        data: data,
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    display: false
+                                }]
+                            }
+                        }
                     });
 
 
@@ -328,10 +498,10 @@
 
                         <div class="panel-heading">Modal Analysis </div>
                         <div class="panel-body panel-height">
-                            <asp:RadioButtonList ID="rbCategoria" runat="server" CssClass="radio">
+                            <asp:RadioButtonList ID="rbCategoria" runat="server" CssClass="radio" onclick="loadConfiguracionCtrlsGraficos();">
                                 <asp:ListItem class="radio-inline" Value="3" Selected="True">Vibración libre no amortiguada</asp:ListItem>
                                 <asp:ListItem class="radio-inline" Value="4">Vibración libre amortiguada</asp:ListItem>
-                                <asp:ListItem class="radio-inline" Value="5">Vibración armónica de un sistema no amoriguado</asp:ListItem>
+                                <asp:ListItem class="radio-inline" Value="5">Vibración armónica de un sistema no amortiguado</asp:ListItem>
                                 <asp:ListItem class="radio-inline" Value="6">Vibración armónica de un sitema amortiguado</asp:ListItem>
 
                             </asp:RadioButtonList>
@@ -350,7 +520,7 @@
                                 <div class="form-group">
                                     <asp:Label for="inputdefault" ID="lblNCL" runat="server" Text="NCL" class="col-md-2 control-label"></asp:Label>
                                     <div class="col-md-10">
-                                        <asp:DropDownList ID="ddlNCL" runat="server" CssClass="form-control input-sm ">
+                                        <asp:DropDownList ID="ddlNCL" runat="server" CssClass="form-control input-sm " onclick="loadConfiguracionCtrlsGraficos();">
                                             <asp:ListItem Value="1">1</asp:ListItem>
                                             <asp:ListItem Value="2">2</asp:ListItem>
                                             <asp:ListItem Value="3">3</asp:ListItem>
@@ -443,17 +613,24 @@
 
                 <div class="col-md-6">
                     <h2>Gráfico 1</h2>
-
-                    <div id="canvas-holder">
-                        <canvas id="bar-area" />
-                    </div>
+                    Propiedad
+                    <select id="propiedad" name="propiedad"></select>
+                    Grado de libertad
+                    <select id="gradoLibertad" name="gradoLibertad" onchange="graficarPropiedad('chartPrimerGrafico', 'propiedad', 'gradoLibertad');"></select>
+                    <input id="btnTrazarPrimerGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartPrimerGrafico', 'propiedad', 'gradoLibertad');"/>
+                    
+                        <canvas id="chartPrimerGrafico" />
+                    
 
                 </div>
                 <div class="col-md-6">
                     <h2>Gráfico 2</h2>
-
-
-                    <canvas id="bar-area2" />
+                    Propiedad
+                    <select id="propiedadSegundoGrafico" name="propiedad"></select>
+                    Grado de libertad
+                    <select id="gradoLibertadSegundoGrafico" name="gradoLibertad" onchange="graficarPropiedad('chartSegundoGrafico', 'propiedadSegundoGrafico', 'gradoLibertadSegundoGrafico');"></select>
+                    <input id="btnTrazarSegundoGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartSegundoGrafico', 'propiedadSegundoGrafico', 'gradoLibertadSegundoGrafico');"/>
+                    <canvas id="chartSegundoGrafico" />
 
 
                 </div>
@@ -464,18 +641,26 @@
                 <div class="col-md-6">
                     <h2>Gráfico 3</h2>
 
-
-                    <canvas id="bar-area3" />
+                    Propiedad
+                    <select id="propiedadTercerGrafico" name="propiedad"></select>
+                    Grado de libertad
+                    <select id="gradoLibertadTercerGrafico" name="gradoLibertad" onchange="graficarPropiedad('chartTercerGrafico', 'propiedadTercerGrafico', 'gradoLibertadTercerGrafico');"></select>
+                    <input id="btnTrazarTercerGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartTercerGrafico', 'propiedadTercerGrafico', 'gradoLibertadTercerGrafico');"/>
+                    <canvas id="chartTercerGrafico" />
 
 
                 </div>
-                <div class="col-md-6 panel-body">
-                    <div class="panel-body">
+                <div class="col-md-6">
+                    
                         <h2>Gráfico 4</h2>
-                        <div>
-                            <canvas id="bar-area4" />
-                        </div>
-                    </div>
+                        Propiedad
+                        <select id="propiedadCuartoGrafico" name="propiedad"></select>
+                        Grado de libertad
+                        <select id="gradoLibertadCuartoGrafico" name="gradoLibertad" onchange="graficarPropiedad('chartCuartoGrafico', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');"></select>
+                        <input id="btnTrazarCuartoGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartCuartoGrafico', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');"/>
+                        <canvas id="chartCuartoGrafico" />
+                        
+                   
                 </div>
 
             </div>

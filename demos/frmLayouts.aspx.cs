@@ -10,9 +10,67 @@ using System.Diagnostics;
 
 public partial class demos_frmLayouts : System.Web.UI.Page
 {
+    private static String PATH_FILE_OUT = "C:\\Modal\\output.txt";
+
     protected void Page_Load(object sender, EventArgs e)
     {
 
+    }
+
+
+    [WebMethod]
+    public static List<object> getTiempoAndPropiedad(string propiedad, string gradoLibertad)
+    {
+        
+
+
+        List<object> lstData = new List<object>();
+        List<String> lstTiempo = new List<String>();
+        List<String> lstPropiedad = new List<String>();
+
+        int contGradoLibertad = 0;
+        bool tiempoEncontrado = false;
+
+        char[] delimiterChars = { ' ' };  
+
+        using (StreamReader sr = new StreamReader(PATH_FILE_OUT, false))
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+
+                String[] datos = line.Split(delimiterChars);
+
+                if (datos[0].Equals("t") && tiempoEncontrado == false)
+                {
+                    for (int cont = 1; cont < datos.Length; cont++)
+                    {
+                        lstTiempo.Add(datos[cont]);
+                    }
+                }
+
+                if (datos[0].Equals(propiedad))
+                {
+                    contGradoLibertad++;
+
+                    if(contGradoLibertad == Convert.ToInt32(gradoLibertad))
+                    {
+                        for (int cont = 1; cont < datos.Length; cont++)
+                        {
+                            lstPropiedad.Add(datos[cont]);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        lstData.Add(lstTiempo);
+        lstData.Add(lstPropiedad);
+
+
+        return lstData;
+        
     }
 
     [WebMethod]
@@ -20,20 +78,20 @@ public partial class demos_frmLayouts : System.Web.UI.Page
     {
         // Posibles combinaciones
         //int categoria = rbCategoria.SelectedValue;
-        String[] tipoVariables = { "t", "u", "up", "upp", "ek"};
+        String[] tipoVariables = { "t", "Un1", "v"};
+
 
         List<object> iData = new List<object>();
-        List<String> labels = new List<String>();
+        List<String> tiempo = new List<String>();
         List<String> lst_dataItem_1 = new List<String>();
-        List<String> lst_dataItem_2 = new List<String>();
-        List<String> lst_dataItem_3 = new List<String>();
-        List<String> lst_dataItem_4 = new List<String>();
+        
+        
 
 
         // lectura de etiquetas
-        char[] delimiterChars = {','};  // ' ', ',', '.', ':', '\t'
+        char[] delimiterChars = {' '};  // ' ', ',', '.', ':', '\t'
 
-        using (StreamReader sr = new StreamReader("C:\\Modal\\output.txt", false))
+        using (StreamReader sr = new StreamReader(PATH_FILE_OUT, false))
         {
             string line;
             while ((line = sr.ReadLine()) != null)
@@ -44,35 +102,14 @@ public partial class demos_frmLayouts : System.Web.UI.Page
                 {
                     for (int cont = 1; cont < datos.Length; cont++)
                     {
-                        labels.Add(datos[cont]);
+                        tiempo.Add(datos[cont]);
                     }
                 }
-                else if (datos[0].Equals("un1"))
+                else if (datos[0].Equals("Un1"))
                 {
                     for (int cont = 1; cont < datos.Length; cont++)
                     {
                         lst_dataItem_1.Add(datos[cont]);
-                    }
-                }
-                else if (datos[0].Equals("up"))
-                {
-                    for (int cont = 1; cont < datos.Length; cont++)
-                    {
-                        lst_dataItem_2.Add(datos[cont]);
-                    }
-                }
-                else if (datos[0].Equals("upp"))
-                {
-                    for (int cont = 1; cont < datos.Length; cont++)
-                    {
-                        lst_dataItem_3.Add(datos[cont]);
-                    }
-                }
-                else if (datos[0].Equals("Ek"))
-                {
-                    for (int cont = 1; cont < datos.Length; cont++)
-                    {
-                        lst_dataItem_4.Add(datos[cont]);
                     }
                 }
 
@@ -80,11 +117,10 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         }
 
 
-        iData.Add(labels);
+        iData.Add(tiempo);
         iData.Add(lst_dataItem_1);
-        iData.Add(lst_dataItem_2);
-        iData.Add(lst_dataItem_3);
-        iData.Add(lst_dataItem_4);
+        
+      
 
         return iData;
     }
@@ -103,7 +139,18 @@ public partial class demos_frmLayouts : System.Web.UI.Page
 
     protected void btnRun_Click(object sender, EventArgs e)
     {
-        
+
+        writeInputFile();
+        runModel();
+
+
+        // graph
+        //ClientScript.RegisterStartupScript(GetType(), "graficando", "graficar()", true);
+        ClientScript.RegisterStartupScript(GetType(), "graficando", "graficarPropiedad('bar-area')", true);
+    }
+
+    private void writeInputFile()
+    {
         string strOutput;
         int nroPisos = Convert.ToInt32(ddlNCL.SelectedValue);
 
@@ -116,7 +163,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         TextBox[] arrW = new TextBox[] { tbW1, tbW2, tbW3, tbW4, tbW5, tbW6, tbW7, tbW8, tbW9, tbW10, tbW11, tbW12, tbW13, tbW14, tbW15, tbW16, tbW17, tbW18, tbW19, tbW20, tbW21, tbW22, tbW23, tbW24, tbW25, tbW26, tbW27, tbW28, tbW29, tbW30 };
         TextBox[] arrH = new TextBox[] { tbH1, tbH2, tbH3, tbH4, tbH5, tbH6, tbH7, tbH8, tbH9, tbH10, tbH11, tbH12, tbH13, tbH14, tbH15, tbH16, tbH17, tbH18, tbH19, tbH20, tbH21, tbH22, tbH23, tbH24, tbH25, tbH26, tbH27, tbH28, tbH29, tbH30 };
 
-        
+
 
         strOutput = rbCategoria.SelectedValue + "\n";
         strOutput += ddlNCL.SelectedValue + " ";
@@ -128,7 +175,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
 
 
         int categoria = Convert.ToInt32(rbCategoria.SelectedValue);
-        if(categoria == 3)
+        if (categoria == 3)
         {
             // escribir M, K, U, I, H
             strOutput += getDatosCtrls(arrM, nroPisos);
@@ -138,7 +185,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
             strOutput += getDatosCtrls(arrH, nroPisos);
 
         }
-        else if(categoria == 4)
+        else if (categoria == 4)
         {
             // escribir M, K, C, U; I, H
             strOutput += getDatosCtrls(arrM, nroPisos);
@@ -148,7 +195,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
             strOutput += getDatosCtrls(arrI, nroPisos);
             strOutput += getDatosCtrls(arrH, nroPisos);
         }
-        else if(categoria == 5)
+        else if (categoria == 5)
         {
             // escribir M, K, F, W, H
             strOutput += getDatosCtrls(arrM, nroPisos);
@@ -157,7 +204,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
             strOutput += getDatosCtrls(arrW, nroPisos);
             strOutput += getDatosCtrls(arrH, nroPisos);
         }
-        else if(categoria == 6)
+        else if (categoria == 6)
         {
             // escribir M, K, C, F, W, H
             strOutput += getDatosCtrls(arrM, nroPisos);
@@ -169,12 +216,14 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         }
 
         // Write the string to a file.
-        System.IO.StreamWriter file = new System.IO.StreamWriter("c:\\Modal\\modelo.txt");
+        System.IO.StreamWriter file = new System.IO.StreamWriter(PATH_FILE_OUT);
         file.WriteLine(strOutput);
 
         file.Close();
+    }
 
-        
+    private void runModel()
+    {
         // Run model
         ProcessStartInfo start = new ProcessStartInfo();
         start.FileName = @"C:\Modal\Modal.exe";
@@ -182,9 +231,5 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         {
             proc.WaitForExit();
         }
-
-
-        // graph
-        ClientScript.RegisterStartupScript(GetType(), "graficando", "graficar()", true);
     }
 }
