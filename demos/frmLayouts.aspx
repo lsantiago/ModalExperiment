@@ -18,10 +18,43 @@
 
     <!-- Valiation data -->
     <script>
-        /*
+        
         $(document).ready(function () {
-            $("#gradoLibertad").on('click', graficarPropiedad("bar-area", "Un1", "1"));
-        });*/
+            //$("#gradoLibertad").on('click', graficarPropiedad("bar-area", "Un1", "1"));
+            console.log("Página cargada.");
+            loadConfiguracionCtrlsGraficos();
+        });
+
+        function graficarModosVibracion() {
+            console.log("Graficando los modos de vibración.");
+        }
+
+        function getMaxPropiedad(ctrlPropiedad, ctrlGradoLibertad) {
+            var data_Propiedad = obtenerSimboloPropiedad($("#" + ctrlPropiedad).val());
+            var data_GradoLibertad = $("#" + ctrlGradoLibertad).val();
+
+            console.log("Obteniendo la propiedad máxima de  " + data_Propiedad);
+
+            var actionData = "{'propiedad': '" + data_Propiedad + "', 'gradoLibertad': '" + data_GradoLibertad + "'}";
+
+            $.ajax({
+                type: "POST",
+                url: "frmLayouts.aspx/getMaxPropiedad",
+                data: actionData,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    // captura los datos de la propiedad desde el archivo de resultados
+                    var aData = msg.d;
+
+                    console.log("Valor máximo " + aData);
+                    $("#tbMaxPropiedad").val(aData);
+                   
+                }
+            });
+
+
+        }
 
         function obtenerSimboloPropiedad(txtPropiedad) {
             console.log("Propiedad a buscar: " + txtPropiedad);
@@ -90,6 +123,8 @@
 
                     var aLabels = aData[0];
                     var aDatasets = aData[1];
+
+                    console.log(aDatasets[0]);
 
 
                     var data = {
@@ -211,6 +246,7 @@
             asignarPropiedadControles("propiedadSegundoGrafico", "gradoLibertadSegundoGrafico");
             asignarPropiedadControles("propiedadTercerGrafico", "gradoLibertadTercerGrafico");
             asignarPropiedadControles("propiedadCuartoGrafico", "gradoLibertadCuartoGrafico");
+            asignarPropiedadControles("propiedadMax","gradoLibertadMax");
         }
 
         
@@ -664,6 +700,37 @@
                 </div>
 
             </div>
+
+            <%-- Propiedades máximas --%>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <h2>Propiedad máxima</h2>
+
+                    Propiedad
+                    <select id="propiedadMax" name="propiedad"></select>
+                    Grado de libertad
+                    <select id="gradoLibertadMax" name="gradoLibertad" onchange="getMaxPropiedad('propiedadMax', 'gradoLibertadMax');"></select>
+                    <input id="btnObtenerMaxPropiedad" type="button" value="Obtener" onclick="getMaxPropiedad('propiedadMax', 'gradoLibertadMax');"/>
+                    <br />
+                    <br />
+                    Valor máximo <input id="tbMaxPropiedad" type="text" />
+
+
+                </div>
+                <div class="col-md-6">
+                    
+                        <h3>Modos de Vibración</h3>
+                        <input id="btnTrazarQuintoGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartModosVibracion', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');"/>
+                         <canvas id="chartModosVibracion" />
+                        
+                   
+                </div>
+
+            </div>
+
+
+
 
             <!-- Modal -->
             <div id="myModal" class="modal fade" role="dialog">

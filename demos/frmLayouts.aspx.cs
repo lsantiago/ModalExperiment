@@ -10,13 +10,66 @@ using System.Diagnostics;
 
 public partial class demos_frmLayouts : System.Web.UI.Page
 {
-    private static String PATH_FILE_OUT = "C:\\Modal\\output.txt";
+    private static String PATH_FILE_OUT = "C:\\Modal\\modelo.txt";
+    private static String PATH_FILE_IN = "C:\\Modal\\output.txt";
 
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
 
+    [WebMethod]
+    public static List<object> getMaxPropiedad(string propiedad, string gradoLibertad)
+    {
+        List<object> lstData = new List<object>();
+
+        // Valor máximo de la propiedad
+        double dblMaxVal = 0.0;
+
+        int contGradoLibertad = 0;
+        double dblVal=0;
+
+
+        char[] delimiterChars = { ' ' };
+        using (StreamReader sr = new StreamReader(PATH_FILE_IN, false))
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                line = line.Trim();
+                String[] datos = line.Split(delimiterChars);
+
+                if (datos[0].Equals(propiedad))
+                {
+                    contGradoLibertad++;
+
+                    // Ubica al grado de libertad en el archivo de salida
+                    if (contGradoLibertad == Convert.ToInt32(gradoLibertad))
+                    {
+
+                        // Determina el valor máximo
+                        dblMaxVal = Math.Abs(double.Parse(datos[1], System.Globalization.CultureInfo.InvariantCulture));
+                        
+                        for(int cont = 2; cont < datos.Length; cont++)
+                        {
+                            dblVal = Math.Abs(double.Parse(datos[cont], System.Globalization.CultureInfo.InvariantCulture));
+
+                            if(dblVal > dblMaxVal)
+                            {
+                                dblMaxVal = dblVal;
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+
+
+
+        lstData.Add(Convert.ToString(dblMaxVal));
+        return lstData;
+    }
 
     [WebMethod]
     public static List<object> getTiempoAndPropiedad(string propiedad, string gradoLibertad)
@@ -33,11 +86,12 @@ public partial class demos_frmLayouts : System.Web.UI.Page
 
         char[] delimiterChars = { ' ' };  
 
-        using (StreamReader sr = new StreamReader(PATH_FILE_OUT, false))
+        using (StreamReader sr = new StreamReader(PATH_FILE_IN, false))
         {
             string line;
             while ((line = sr.ReadLine()) != null)
             {
+                line = line.Trim();
 
                 String[] datos = line.Split(delimiterChars);
 
@@ -62,6 +116,18 @@ public partial class demos_frmLayouts : System.Web.UI.Page
                     }
                 }
             }
+        }
+
+
+        // Relleno de propiedad - Constantes
+        if(lstPropiedad.Count == 1)
+        {
+            int limite = lstTiempo.Count;
+            for (int i = 1; i < limite; i++)
+            {
+                lstPropiedad.Add(lstPropiedad.ElementAt(0));
+            }
+
         }
 
 
