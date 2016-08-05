@@ -16,6 +16,8 @@
     <!-- Libreria para gráficar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
+    
+
     <!-- Valiation data -->
     <script>
         
@@ -23,10 +25,132 @@
             //$("#gradoLibertad").on('click', graficarPropiedad("bar-area", "Un1", "1"));
             console.log("Página cargada.");
             loadConfiguracionCtrlsGraficos();
+
+            
+
         });
 
         function graficarModosVibracion() {
             console.log("Graficando los modos de vibración.");
+            var linea = [];
+
+            $.ajax({
+                type: "POST",
+                url: "frmLayouts.aspx/getModosVibracion",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    // captura los datos de la propiedad desde el archivo de resultados
+                    var aData = msg.d;
+                    var ejeY = [];
+                    var lineas = [];
+
+                    for (var i = 0; i < aData.length; i++) {
+                        console.log("Dimension de vibración " + i + " " + aData[i].length)
+                    }
+                    
+                    
+                    //for (var i = 0; i < aData.length; i++) {
+                    //    ejeY.push(i * 3);
+                    //}
+
+                    //for (var i = 0; i < aData.length; i++) {
+                    //    var linea = [];
+                    //    for (var j = 0; j < aData[0].length; j++) {
+                    //        linea.push({ x: parseFloat(aData[i][j]), y: ejeY[j] });
+                    //    }
+                    //    lineas.push(linea);
+                    //}
+
+                    //*************************************************************************
+                    
+
+                    var ctx = document.getElementById('chartModosVibracion').getContext("2d");
+
+                    //myLineChart = new Chart(ctx).Line(lineChartData);
+
+
+                    lineChartData = {}; //declare an object
+                    lineChartData.labels = []; //add 'labels' element to object (X axis)
+                    lineChartData.datasets = []; //add 'datasets' array element to object
+
+                    for (line = 0; line < aData.length; line++) {
+                        dataPoints = [];
+                        lineChartData.datasets.push({}); //create a new line dataset
+                        dataset = lineChartData.datasets[line]
+                        dataset.fillColor = "rgba(0,0,0,0)";
+                        dataset.strokeColor = "rgba(200,200,200,1)";
+                        // Para lineas rectas 0
+                        dataset.lineTension = 0;
+                        dataset.backgroundColor = "rgba(75,192," + (line * 10) + ",0.4)";
+                        dataset.fill= false,
+                        dataset.data = []; //contains the 'Y; axis data
+                        dataset.label = "Modo de vibración " + (line+1);
+
+                        for (x = 0; x < aData[0].length; x++) {
+                            dataPoints.push({ x: parseFloat(aData[line][x]), y: parseFloat(x*3) });
+                        } //for x
+
+                        lineChartData.datasets[line].data = dataPoints; //send new line data to dataset
+                    } //for line
+
+                    ctx = document.getElementById("chartModosVibracion").getContext("2d");
+                    
+
+
+                    var scatterChart = new Chart(ctx, {
+                        type: 'line',
+                        data: lineChartData,
+                        options: {
+                            elements: {
+                                rectangle: {
+                                    borderWidth: 2,
+                                    borderColor: 'rgba(20,50,125,0.5)',
+                                }
+                            },
+                            legend: {
+                                display: true,
+                            },
+                           
+                            scaleFontColor: "#FF5972",
+                            lineTension:10,
+                            scales: {
+                                xAxes: [{
+                                    type: 'linear',
+                                    id: 'Tiempo',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Desplazamiento (m)'
+                                    },
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }],
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Altura de piso (m)',
+                                        stacked: true
+                                    },
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+
+                            }
+                        }
+                    });
+
+                    //*************************************************************************
+
+                    
+
+                    
+
+                }
+            });
         }
 
         function getMaxPropiedad(ctrlPropiedad, ctrlGradoLibertad) {
@@ -94,7 +218,9 @@
             console.log(idControl);
             console.log("Propiedad " + ctrlPropiedad);
 
-            var data_Propiedad = obtenerSimboloPropiedad($("#" + ctrlPropiedad).val());
+            var nombrePropiedad = $("#" + ctrlPropiedad).val();
+
+            var data_Propiedad = obtenerSimboloPropiedad(nombrePropiedad);
             var data_GradoLibertad = $("#" + ctrlGradoLibertad).val();
 
             console.log("Obteniendo la propiedad " + data_Propiedad);
@@ -126,49 +252,58 @@
 
                     console.log(aDatasets[0]);
 
+                    var dataPoints = [];
+                    for (var i = 0; i <= aData[0].length - 1; i++) {
+                        dataPoints.push({ x: parseFloat(aData[0][i]), y: parseFloat(aData[1][i]) });
+                    }
 
-                    var data = {
-                        labels: aLabels,
+                    var puntos = {
                         datasets: [{
-                            label: $("#propiedad").val(),
-                            //fillColor: "rgba(220,220,220,0.2)",
-                            fillColor: 'rgba(0,0,0,0)',
-                            strokeColor: "rgba(220,220,220,1)",
+                            label: nombrePropiedad + ' vs Tiempo' ,
+                            fillColor: "rgba(151,249,190,0.5)",
+                            strokeColor: "rgba(255,255,255,1)",
                             pointColor: "rgba(220,220,220,1)",
                             pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(220,220,220,1)",
-                            pointRadius: 0,
-                            data: aDatasets
+                            pointRadius: 0.1,
+                            lineTension: 0,
+                            fill: false,
+                            data: dataPoints
                         }]
                     }
 
+                    Chart.defaults.global.tooltipFillColor = "rgba(0,160,0,0.8)";
+                    Chart.defaults.global.scaleLineColor = "black";
 
                     var ctx = document.getElementById(idControl).getContext("2d");
                     ctx.canvas.height = 300;  // setting height of canvas
                     ctx.canvas.width = 500; // setting width of canvas
                     
-                    var myLineChart = new Chart(ctx, {
+                    var scatterChart = new Chart(ctx, {
                         type: 'line',
-                        // Fill style of the legend box
-                        fillStyle: Color,
-                        hidden: false,
-                        fill: false,
-                        legend: {
-                            display: true,
-                            labels: {
-                                fontColor: 'rgb(255, 99, 132)'
-                            }
-                        },
-                        data: data,
+                        data: puntos,
                         options: {
                             scales: {
                                 xAxes: [{
-                                    display: false
+                                    type: 'linear',
+                                    id: 'Tiempo',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Tiempo'
+                                    }
+                                }],
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: $("#" + ctrlPropiedad).val()
+                                    }
                                 }]
+                                
                             }
                         }
                     });
+
+                    
                 }
             });
             
@@ -192,6 +327,13 @@
             significadoPropiedades[1] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Energía de Disipación', 'Fuerza Elástica', 'Fuerza Externa', 'Fuerza Total', 'Desplazamiento Nodal Total'];
             significadoPropiedades[2] = ['Desplazamiento Nodal Total'];
             significadoPropiedades[3] = ['Desplazamiento Nodal Total'];
+
+            /*
+            significadoPropiedades[0] = ['Desplazamiento (mm)', 'Velocidad (m/s)', 'Aceleración (m/s^2)', 'E. Cinética (tonf x m)', 'E. Potencial (tonf x m)', 'E. Total (tonf x m)', 'Fuerza Elástica (tonf)', 'Desplazamiento Nodal Total (m)'];
+            significadoPropiedades[1] = ['Desplazamiento (mm)', 'Velocidad (m/s)', 'Aceleración (m/s^2)', 'E. Cinética (tonf x m)', 'E. Potencial (tonf x m)', 'E. Total (tonf x m)', 'Energía de Disipación (tonf x m)', 'Fuerza Elástica (tonf)', 'Fuerza Externa (tonf)', 'Fuerza Total (tonf)', 'Desplazamiento Nodal Total (m)'];
+            significadoPropiedades[2] = ['Desplazamiento Nodal Total (m)'];
+            significadoPropiedades[3] = ['Desplazamiento Nodal Total (m)'];
+            */
 
             var ctrlNroPisos = document.getElementById('ddlNCL');
             var nroPisos = Number(ctrlNroPisos.value);
@@ -532,13 +674,13 @@
                 <div class="col-md-3">
                     <div class="panel panel-primary">
 
-                        <div class="panel-heading">Modal Analysis </div>
+                        <div class="panel-heading">Análisis Modal</div>
                         <div class="panel-body panel-height">
                             <asp:RadioButtonList ID="rbCategoria" runat="server" CssClass="radio" onclick="loadConfiguracionCtrlsGraficos();">
                                 <asp:ListItem class="radio-inline" Value="3" Selected="True">Vibración libre no amortiguada</asp:ListItem>
                                 <asp:ListItem class="radio-inline" Value="4">Vibración libre amortiguada</asp:ListItem>
-                                <asp:ListItem class="radio-inline" Value="5">Vibración armónica de un sistema no amortiguado</asp:ListItem>
-                                <asp:ListItem class="radio-inline" Value="6">Vibración armónica de un sitema amortiguado</asp:ListItem>
+                                <asp:ListItem class="radio-inline" Value="5">Vibración armónica no amortiguada</asp:ListItem>
+                                <asp:ListItem class="radio-inline" Value="6">Vibración armónica amortiguada</asp:ListItem>
 
                             </asp:RadioButtonList>
 
@@ -547,16 +689,17 @@
 
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="panel panel-primary">
 
-                        <div class="panel-heading">Initial Data</div>
+                        <div class="panel-heading">Datos iniciales</div>
                         <div class="panel-body panel-height">
                             <form class="form-horizontal" role="form">
                                 <div class="form-group">
-                                    <asp:Label for="inputdefault" ID="lblNCL" runat="server" Text="NCL" class="col-md-2 control-label"></asp:Label>
-                                    <div class="col-md-10">
+                                    <%--<asp:Label for="inputdefault" ID="lblNCL" runat="server" Text="Grados de Libertad" class="col-md-4 control-label"></asp:Label>--%>
+                                    <div class="col-md-12">
                                         <asp:DropDownList ID="ddlNCL" runat="server" CssClass="form-control input-sm " onclick="loadConfiguracionCtrlsGraficos();">
+                                            <asp:ListItem Value="GDL">Grados de Libertad</asp:ListItem>
                                             <asp:ListItem Value="1">1</asp:ListItem>
                                             <asp:ListItem Value="2">2</asp:ListItem>
                                             <asp:ListItem Value="3">3</asp:ListItem>
@@ -593,22 +736,22 @@
                                 </div>
                                 <br />
                                 <div class="form-group">
-                                    <asp:Label ID="lblTO" runat="server" Text="to" class="col-md-2 control-label"></asp:Label>
-                                    <div class="col-md-10">
-                                        <asp:TextBox ID="tbTO" runat="server" CssClass="form-control input-sm" placeholder="Tiempo inicial"></asp:TextBox>
+                                    <%--<asp:Label ID="lblTO" runat="server" Text="Tiempo inicial (s)" class="col-md-4 control-label"></asp:Label>--%>
+                                    <div class="col-md-12">
+                                        <asp:TextBox ID="tbTO" runat="server" CssClass="form-control input-sm" placeholder="Tiempo inicial (s)"></asp:TextBox>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="form-group">
-                                    <asp:Label ID="lblTF" runat="server" Text="tf" class="col-md-2 control-label"></asp:Label>
-                                    <div class="col-md-10">
-                                        <asp:TextBox ID="tbTF" runat="server" CssClass="form-control input-sm" placeholder="Tiempo final"></asp:TextBox>
+                                    <%--<asp:Label ID="lblTF" runat="server" Text="Tiempo final (s)" class="col-md-4 control-label"></asp:Label>--%>
+                                    <div class="col-md-12">
+                                        <asp:TextBox ID="tbTF" runat="server" CssClass="form-control input-sm" placeholder="Tiempo final (s)"></asp:TextBox>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="form-group">
-                                    <asp:Label ID="lblPA" runat="server" Text="&#916;pa" class="col-md-2 control-label"></asp:Label>
-                                    <div class="col-md-10">
+                                    <%--<asp:Label ID="lblPA" runat="server" Text="Incremento de tiempo" class="col-md-4 control-label"></asp:Label>--%>
+                                    <div class="col-md-12">
                                         <asp:TextBox ID="tbPA" runat="server" CssClass="form-control input-sm" placeholder="Incremento de tiempo"></asp:TextBox>
                                     </div>
                                 </div>
@@ -632,10 +775,10 @@
 
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="panel panel-success">
 
-                        <div class="panel-heading">Graph</div>
+                        <div class="panel-heading">Esquema</div>
                         <div class="panel-body panel-height">
                             <p>...</p>
                         </div>
@@ -721,7 +864,7 @@
                 <div class="col-md-6">
                     
                         <h3>Modos de Vibración</h3>
-                        <input id="btnTrazarQuintoGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartModosVibracion', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');"/>
+                        <input id="btnTrazarQuintoGrafico" type="button" value="Graficar" onclick="graficarModosVibracion();"/>
                          <canvas id="chartModosVibracion" />
                         
                    

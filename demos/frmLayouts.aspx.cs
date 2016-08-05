@@ -12,6 +12,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
 {
     private static String PATH_FILE_OUT = "C:\\Modal\\modelo.txt";
     private static String PATH_FILE_IN = "C:\\Modal\\output.txt";
+    private static char[] delimiterChars = { ' ' };
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -19,6 +20,43 @@ public partial class demos_frmLayouts : System.Web.UI.Page
     }
 
     [WebMethod]
+    // Lee todos los datos de Vibración
+    public static List<object> getModosVibracion()
+    {
+        List<object> lstData = new List<object>();
+        
+
+        using (StreamReader sr = new StreamReader(PATH_FILE_IN, false))
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                line = line.Trim();
+                String[] datos = line.Split(delimiterChars);
+                List<String> lstVibracion = new List<string>();
+
+                
+                if (datos[0].Equals("v"))
+                {
+                    
+                    lstVibracion.Add("0");
+
+                    for (int cont = 1; cont < datos.Length; cont++)
+                    {
+                            lstVibracion.Add(datos[cont]);
+                    }
+
+                    lstData.Add(lstVibracion);
+                }
+            }
+        }
+
+        return lstData;
+        
+    }
+
+    [WebMethod]
+    // Obtiene la propiedad máxima
     public static List<object> getMaxPropiedad(string propiedad, string gradoLibertad)
     {
         List<object> lstData = new List<object>();
@@ -30,7 +68,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         double dblVal=0;
 
 
-        char[] delimiterChars = { ' ' };
+        
         using (StreamReader sr = new StreamReader(PATH_FILE_IN, false))
         {
             string line;
@@ -84,8 +122,6 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         int contGradoLibertad = 0;
         bool tiempoEncontrado = false;
 
-        char[] delimiterChars = { ' ' };  
-
         using (StreamReader sr = new StreamReader(PATH_FILE_IN, false))
         {
             string line;
@@ -101,6 +137,8 @@ public partial class demos_frmLayouts : System.Web.UI.Page
                     {
                         lstTiempo.Add(datos[cont]);
                     }
+
+                    tiempoEncontrado = true;
                 }
 
                 if (datos[0].Equals(propiedad))
@@ -213,6 +251,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         // graph
         //ClientScript.RegisterStartupScript(GetType(), "graficando", "graficar()", true);
         ClientScript.RegisterStartupScript(GetType(), "graficando", "graficarPropiedad('bar-area')", true);
+        ClientScript.RegisterStartupScript(GetType(), "graficando", "graficarModosVibracion()", true);
     }
 
     private void writeInputFile()

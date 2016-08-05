@@ -6,10 +6,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services;
 using System.Diagnostics;
+using System.IO;
 
 public partial class experimento_Spectrum : System.Web.UI.Page
 {
     private static String PATH = @"C:\Users\Administrador\Documents\Visual Studio 2015\WebSites\VLEE\spectrum\";
+    
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -25,7 +27,7 @@ public partial class experimento_Spectrum : System.Web.UI.Page
 
         file.Close();
 
-        runModel();
+        //runModel();
     }
 
     private static void runModel()
@@ -40,11 +42,32 @@ public partial class experimento_Spectrum : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static List<object> getRegistrosPSA()
+    public static List<object> getRegistrosDesplazamiento(String file)
     {
         List<object> lstData = new List<object>();
         char[] delimiterChars = { ' ' };
 
+        using (StreamReader sr = new StreamReader(PATH + "output\\" + file, false))
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                line = line.Trim();
+                String[] datos = line.Split(delimiterChars);
+                List<String> lstDesplazamiento = new List<string>();
+
+
+                // Validar datos con NaN posible error
+                //lstDesplazamiento.Add("0");
+                for (int cont = 0; cont < datos.Length; cont++)
+                {
+                    lstDesplazamiento.Add(datos[cont]);
+                }
+
+                lstData.Add(lstDesplazamiento);
+                
+            }
+        }
 
 
         return lstData;
