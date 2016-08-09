@@ -791,7 +791,9 @@
             <div class="row">
 
                 <div class="col-md-6">
-                    <h2>Gráfico 1</h2>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            
                     Propiedad
                     <select id="propiedad" name="propiedad"></select>
                     Grado de libertad
@@ -799,18 +801,24 @@
                     <input id="btnTrazarPrimerGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartPrimerGrafico', 'propiedad', 'gradoLibertad');"/>
                     
                         <canvas id="chartPrimerGrafico" />
+                        </div>
+                    </div>
                     
 
                 </div>
                 <div class="col-md-6">
-                    <h2>Gráfico 2</h2>
-                    Propiedad
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            Propiedad
                     <select id="propiedadSegundoGrafico" name="propiedad"></select>
                     Grado de libertad
                     <select id="gradoLibertadSegundoGrafico" name="gradoLibertad" onchange="graficarPropiedad('chartSegundoGrafico', 'propiedadSegundoGrafico', 'gradoLibertadSegundoGrafico');"></select>
                     <input id="btnTrazarSegundoGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartSegundoGrafico', 'propiedadSegundoGrafico', 'gradoLibertadSegundoGrafico');"/>
                     <canvas id="chartSegundoGrafico" />
 
+</div>
+</div>
+                    
 
                 </div>
 
@@ -818,26 +826,34 @@
             <div class="row">
 
                 <div class="col-md-6">
-                    <h2>Gráfico 3</h2>
-
-                    Propiedad
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                             Propiedad
                     <select id="propiedadTercerGrafico" name="propiedad"></select>
                     Grado de libertad
                     <select id="gradoLibertadTercerGrafico" name="gradoLibertad" onchange="graficarPropiedad('chartTercerGrafico', 'propiedadTercerGrafico', 'gradoLibertadTercerGrafico');"></select>
                     <input id="btnTrazarTercerGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartTercerGrafico', 'propiedadTercerGrafico', 'gradoLibertadTercerGrafico');"/>
                     <canvas id="chartTercerGrafico" />
+</div>
+</div>
+
+                   
 
 
                 </div>
                 <div class="col-md-6">
                     
-                        <h2>Gráfico 4</h2>
-                        Propiedad
+                        <div class="panel panel-default">
+                        <div class="panel-body">
+                             Propiedad
                         <select id="propiedadCuartoGrafico" name="propiedad"></select>
                         Grado de libertad
                         <select id="gradoLibertadCuartoGrafico" name="gradoLibertad" onchange="graficarPropiedad('chartCuartoGrafico', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');"></select>
                         <input id="btnTrazarCuartoGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartCuartoGrafico', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');"/>
                         <canvas id="chartCuartoGrafico" />
+</div>
+</div>
+                       
                         
                    
                 </div>
@@ -848,6 +864,9 @@
             <div class="row">
 
                 <div class="col-md-6">
+                    <div class="panel panel-success">
+                        
+                    </div>
                     <h2>Propiedad máxima</h2>
 
                     Propiedad
