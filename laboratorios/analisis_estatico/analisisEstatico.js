@@ -1,7 +1,18 @@
-﻿function graficarResultados(msg) {
+﻿function generarInformeTXT(msg) {
+    // captura los datos del archivo de resultados
+    var aData = msg.d;
+
+    console.log("Imprimiendo resultado para el usuario.");
+    console.log(aData[0]);
+
+    var blob = new Blob([aData[0]], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, "ResultadosAnalisisEstatico.txt");
+}
+
+function graficarResultados(msg) {
     console.log("Obteniendo resultados");
-    alturaChart = 100;
-    anchoChart = 200;
+    var alturaChart = 200;
+    var anchoChart = 500;
 
 
 
@@ -62,12 +73,11 @@
         }]
     }
 
-    var ctx = document.getElementById('chartCable').getContext("2d");
-    //var ctx = $("#chartCable").get(0).getContext("2d");
-    ctx.canvas.height = alturaChart;  // setting height of canvas
-    ctx.canvas.width = anchoChart; // setting width of canvas
+    var ctxCable = document.getElementById('chartCable').getContext("2d");
+    ctxCable.canvas.height = alturaChart;  // setting height of canvas
+    ctxCable.canvas.width = anchoChart; // setting width of canvas
 
-    var scatterChart = new Chart(ctx, {
+    var chartCable = new Chart(ctxCable, {
         type: 'line',
         data: puntosCable,
         options: {
@@ -142,12 +152,12 @@
         contLineas++;
     }
 
-    ctx = document.getElementById("chartTensor").getContext("2d");
-    ctx.canvas.height = alturaChart;  // setting height of canvas
-    ctx.canvas.width = anchoChart; // setting width of canvas
+    var ctxTensor = document.getElementById("chartTensor").getContext("2d");
+    ctxTensor.canvas.height = alturaChart;  // setting height of canvas
+    ctxTensor.canvas.width = anchoChart; // setting width of canvas
 
 
-    var scatterChart = new Chart(ctx, {
+    var chartTensor = new Chart(ctxTensor, {
         type: 'line',
         data: lineChartData,
         options: {
@@ -227,11 +237,11 @@
         }]
     }
 
-    var ctx = document.getElementById('chartCarga').getContext("2d");
-    ctx.canvas.height = alturaChart;  // setting height of canvas
-    ctx.canvas.width = anchoChart; // setting width of canvas
+    var ctxCarga = document.getElementById('chartCarga').getContext("2d");
+    ctxCarga.canvas.height = alturaChart;  // setting height of canvas
+    ctxCarga.canvas.width = anchoChart; // setting width of canvas
 
-    var scatterChart = new Chart(ctx, {
+    var chartCarga = new Chart(ctxCarga, {
         type: 'line',
         data: puntosCarga,
         options: {
@@ -263,13 +273,13 @@
     });
 
     // Cable - tensores - carga
-    var ctx = document.getElementById('chartCableTensoresCarga').getContext("2d");
-    ctx.canvas.height = alturaChart;  // setting height of canvas
-    ctx.canvas.width = anchoChart; // setting width of canvas
+    var ctxCableTensorCarga = document.getElementById('chartCableTensoresCarga').getContext("2d");
+    ctxCableTensorCarga.canvas.height = alturaChart;  // setting height of canvas
+    ctxCableTensorCarga.canvas.width = anchoChart; // setting width of canvas
 
 
 
-    var scatterChart = new Chart(ctx, {
+    var chartCableTensorCarga = new Chart(ctxCableTensorCarga, {
         type: 'line',
         data: lineAllChartData,
         options: {
@@ -361,6 +371,20 @@ $(document).ready(function () {
         //$.fileDownload('model_matlab/output.txt')
         //    .done(function () { alert('File download a success!'); })
         //    .fail(function () { alert('File download failed!'); }); 
+
+        $.ajax({
+            type: "POST",
+            url: "index.aspx/getInforme",
+            data: "{}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+
+                generarInformeTXT(msg);
+
+            }
+        });
+
 
     });
 

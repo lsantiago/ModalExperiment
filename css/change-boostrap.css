@@ -2,6 +2,10 @@
     width: 204px;
 }
 
+.anchoTextoSimbolo{
+    width: 55px;
+}
+
 .fixed-panel {
   min-height: 10;
   max-height: 10;

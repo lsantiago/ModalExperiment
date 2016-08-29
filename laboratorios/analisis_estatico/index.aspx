@@ -79,7 +79,7 @@
                                 <div id="Ho" class="input-group input-group-sm">
                                     <span  class="input-group-addon anchoTextoEntrada">Altura o flecha del punto O (Ho)</span>
                                     <input id="tbHo" type="number" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" required/>
-                                    <span class="input-group-addon label-default">m</span>
+                                    <span class="input-group-addon anchoTextoSimbolo">m</span>
                                 </div>
 
 <%--                                <div  class="input-group">
@@ -97,7 +97,7 @@
                                 <div id="HF" class="input-group input-group-sm">
                                     <span class="input-group-addon anchoTextoEntrada">Altura o flecha del punto F (H<sub>F</sub>)</span>
                                     <input id="tbHF" type="number" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" required/>
-                                    <span class="input-group-addon label-default">m</span>
+                                    <span class="input-group-addon anchoTextoSimbolo">m</span>
                                 </div>
 
 
@@ -120,7 +120,7 @@
                                 <div id="H" class="input-group input-group-sm">
                                     <span class="input-group-addon anchoTextoEntrada">Altura o flecha (H)</span>
                                     <input  id="tbH" type="number" step="any" class="form-control " aria-label="Amount (to the nearest dollar)" />
-                                    <span class="input-group-addon label-default">m</span>
+                                    <span class="input-group-addon anchoTextoSimbolo">m</span>
                                 </div>
 
                                 <%--<div id="H" class="form-group">
@@ -143,7 +143,7 @@
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-addon anchoTextoEntrada">Vano entre el punto O y F (L)</span>
                                     <input id="tbL" type="number" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" required/>
-                                    <span class="input-group-addon label-default">m</span>
+                                    <span class="input-group-addon anchoTextoSimbolo">m</span>
                                 </div>
 
                                 <%--<div class="form-group">
@@ -164,7 +164,7 @@
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-addon anchoTextoEntrada">Carga distribuida lìnea recta (Wo)</span>
                                     <input id="tbWo" type="number" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" required/>
-                                    <span class="input-group-addon label-default label-xs">KN/m</span>
+                                    <span class="input-group-addon anchoTextoSimbolo label-xs">KN/m</span>
                                 </div>
 
                                <%-- <div class="form-group">
@@ -183,7 +183,7 @@
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-addon anchoTextoEntrada">Distancia entre tensores (DT)</span>
                                     <input id="tbDT" type="number" step="any" class="form-control" aria-label="Amount (to the nearest dollar)" required/>
-                                    <span class="input-group-addon label-default">m</span>
+                                    <span class="input-group-addon anchoTextoSimbolo">m</span>
                                 </div>
 
                                 <%--<div class="form-group">
@@ -355,18 +355,18 @@
                                     </div>
                                 </div>
                                 <div class="panel-footer">
-                                    <input id="btnDecargarResultados" type="button" class="btn btn-success" value="Descargar"/>
+                                    <input id="btnDecargarResultados" type="button" class="btn btn-danger btn-xs" value="Descargar"/>
                                 </div>
                             </div>
                         </div>
 
                         <%--Gráficas--%>
-                        <div class="col-md-9 sinespacios ">
+                        <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <canvas id="chartCable" width="200" height="100" />
+                                            <canvas id="chartCable" width="100" height="100" />
 
                                         </div>
                                        
@@ -389,7 +389,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <canvas id="chartTensor" width="200" height="100" />
+                                            <canvas id="chartTensor" width="100" height="100" />
 
                                         </div>
                                         
@@ -412,7 +412,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <canvas id="chartCarga" width="200" height="100" />
+                                            <canvas id="chartCarga" width="100" height="100" />
 
                                         </div>
                                         
@@ -434,7 +434,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <canvas id="chartCableTensoresCarga" width="200" height="100" />
+                                            <canvas id="chartCableTensoresCarga" width="100" height="100" />
 
                                         </div>
                                         

@@ -12,13 +12,35 @@ public partial class laboratorios_analisis_estatico_index : System.Web.UI.Page
 {
     private static String PATH_FILE_MODEL = @"C:\vlee\analisis_estatico\input.txt";
     private static String PATH_FILE_OUTPUT = @"C:\vlee\analisis_estatico\outputExperimento.txt";
+    private static String PATH_FILE_OUTPUT_USER = @"C:\vlee\analisis_estatico\outputUser.txt";
+
     private static char[] delimiterChars = { ' ' };
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
 
+
+    // Obtiene los datos para el informe del experimento
+    [WebMethod]
+    public static List<object> getInforme()
+    {
+        List<object> lstData = new List<object>();
+        String contendFile = "";
+
+        using (StreamReader sr = new StreamReader(PATH_FILE_OUTPUT_USER, false))
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                contendFile += line + "\n";    
+            }
+
+            lstData.Add(contendFile);
+        }
+        
+        return lstData;
     }
 
+
+    // Lectura del archivo de resultados - página web
     [WebMethod]
     public static List<object> getResultados()
     {
@@ -45,10 +67,7 @@ public partial class laboratorios_analisis_estatico_index : System.Web.UI.Page
             }
 
         }
-
-
-
-        
+    
         return lstData;
     }
 
@@ -61,7 +80,7 @@ public partial class laboratorios_analisis_estatico_index : System.Web.UI.Page
         file.Close();
 
         // ejecuta el modelo
-        runModel();
+        //runModel();
 
         // retorna los resultados
         return getResultados();
