@@ -1,9 +1,73 @@
-﻿.fixed-panel {
+﻿.anchoTextoEntrada{
+    width: 204px;
+}
+
+.fixed-panel {
   min-height: 10;
   max-height: 10;
   overflow-y: scroll;
 }
 
 .panel-height {
-  height: 220px; / change according to your requirement/
+  height: 270px;  /change according to your requirement
 }
+
+.propiedadmax-height {
+  height: 130px;  /change according to your requirement
+}
+
+.highInputAnalisiEstatico{
+  height: 230px;
+}
+
+
+.legend {
+    width: 10em;
+    border: 1px solid black;
+}
+
+.legend .title {
+    display: block;
+    margin-bottom: 0.5em;
+    line-height: 1.2em;
+    padding: 0 0.3em;
+}
+
+.legend .color-sample {
+    display: block;
+    float: left;
+    width: 1em;
+    height: 1em;
+    border: 2px solid; /* Comment out if you don't want to show the fillColor */
+    border-radius: 0.5em; /* Comment out if you prefer squarish samples */
+    margin-right: 0.5em;
+}
+
+/*.sinpadding [class*="col-"] {
+    padding: 1em 1em 1em 1em;
+}*/
+
+.sinespacios{
+   padding: 0em 0.2em 0.2em 0.2em !important;
+   margin: 0 !important;
+}
+
+.input-xs {
+    height: 22px;
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    /*If Placeholder of the input is moved up, rem/modify this. border-radius: 3px;*/
+}
+
+
+#mdialTamanio{
+  width: 50% !important;
+}
+
+
+
+
+
+
+

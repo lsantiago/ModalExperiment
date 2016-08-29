@@ -27,7 +27,7 @@ public partial class experimento_Spectrum : System.Web.UI.Page
 
         file.Close();
 
-        //runModel();
+        runModel();
     }
 
     private static void runModel()

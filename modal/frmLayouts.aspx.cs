@@ -241,19 +241,21 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         return salida;
     }
 
+    // acciones del botón ejecutar
     protected void btnRun_Click(object sender, EventArgs e)
     {
 
         writeInputFile();
         runModel();
 
-
         // graph
-        //ClientScript.RegisterStartupScript(GetType(), "graficando", "graficar()", true);
-        ClientScript.RegisterStartupScript(GetType(), "graficando", "graficarPropiedad('bar-area')", true);
+        ClientScript.RegisterStartupScript(GetType(), "graficando", "graficarResultados()", true);
         ClientScript.RegisterStartupScript(GetType(), "graficando", "graficarModosVibracion()", true);
     }
 
+
+
+    // genera el archivo de entrada
     private void writeInputFile()
     {
         string strOutput;
@@ -266,7 +268,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         TextBox[] arrI = new TextBox[] { tbI1, tbI2, tbI3, tbI4, tbI5, tbI6, tbI7, tbI8, tbI9, tbI10, tbI11, tbI12, tbI13, tbI14, tbI15, tbI16, tbI17, tbI18, tbI19, tbI20, tbI21, tbI22, tbI23, tbI24, tbI25, tbI26, tbI27, tbI28, tbI29, tbI30 };
         TextBox[] arrF = new TextBox[] { tbF1, tbF2, tbF3, tbF4, tbF5, tbF6, tbF7, tbF8, tbF9, tbF10, tbF11, tbF12, tbF13, tbF14, tbF15, tbF16, tbF17, tbF18, tbF19, tbF20, tbF21, tbF22, tbF23, tbF24, tbF25, tbF26, tbF27, tbF28, tbF29, tbF30 };
         TextBox[] arrW = new TextBox[] { tbW1, tbW2, tbW3, tbW4, tbW5, tbW6, tbW7, tbW8, tbW9, tbW10, tbW11, tbW12, tbW13, tbW14, tbW15, tbW16, tbW17, tbW18, tbW19, tbW20, tbW21, tbW22, tbW23, tbW24, tbW25, tbW26, tbW27, tbW28, tbW29, tbW30 };
-        TextBox[] arrH = new TextBox[] { tbH1, tbH2, tbH3, tbH4, tbH5, tbH6, tbH7, tbH8, tbH9, tbH10, tbH11, tbH12, tbH13, tbH14, tbH15, tbH16, tbH17, tbH18, tbH19, tbH20, tbH21, tbH22, tbH23, tbH24, tbH25, tbH26, tbH27, tbH28, tbH29, tbH30 };
+        //TextBox[] arrH = new TextBox[] { tbH1, tbH2, tbH3, tbH4, tbH5, tbH6, tbH7, tbH8, tbH9, tbH10, tbH11, tbH12, tbH13, tbH14, tbH15, tbH16, tbH17, tbH18, tbH19, tbH20, tbH21, tbH22, tbH23, tbH24, tbH25, tbH26, tbH27, tbH28, tbH29, tbH30 };
 
 
 
@@ -287,7 +289,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
             strOutput += getDatosCtrls(arrK, nroPisos);
             strOutput += getDatosCtrls(arrU, nroPisos);
             strOutput += getDatosCtrls(arrI, nroPisos);
-            strOutput += getDatosCtrls(arrH, nroPisos);
+            //strOutput += getDatosCtrls(arrH, nroPisos);
 
         }
         else if (categoria == 4)
@@ -298,7 +300,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
             strOutput += getDatosCtrls(arrC, nroPisos);
             strOutput += getDatosCtrls(arrU, nroPisos);
             strOutput += getDatosCtrls(arrI, nroPisos);
-            strOutput += getDatosCtrls(arrH, nroPisos);
+            //strOutput += getDatosCtrls(arrH, nroPisos);
         }
         else if (categoria == 5)
         {
@@ -307,7 +309,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
             strOutput += getDatosCtrls(arrK, nroPisos);
             strOutput += getDatosCtrls(arrF, nroPisos);
             strOutput += getDatosCtrls(arrW, nroPisos);
-            strOutput += getDatosCtrls(arrH, nroPisos);
+            //strOutput += getDatosCtrls(arrH, nroPisos);
         }
         else if (categoria == 6)
         {
@@ -317,7 +319,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
             strOutput += getDatosCtrls(arrC, nroPisos);
             strOutput += getDatosCtrls(arrF, nroPisos);
             strOutput += getDatosCtrls(arrW, nroPisos);
-            strOutput += getDatosCtrls(arrH, nroPisos);
+            //strOutput += getDatosCtrls(arrH, nroPisos);
         }
 
         // Write the string to a file.
@@ -327,6 +329,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
         file.Close();
     }
 
+    // ejecuta el modelo
     private void runModel()
     {
         // Run model

@@ -17,17 +17,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
     
-
+    <%--<script src="../js/waitingfor.js"></script>--%>
+    
     <!-- Valiation data -->
     <script>
-        
+
         $(document).ready(function () {
             //$("#gradoLibertad").on('click', graficarPropiedad("bar-area", "Un1", "1"));
             console.log("Página cargada.");
             loadConfiguracionCtrlsGraficos();
-
             
-
+            // solo para mostrar los espacios gráficos
+            graficarResultados();
+            graficarModosVibracion();
         });
 
         function graficarModosVibracion() {
@@ -49,29 +51,11 @@
                     for (var i = 0; i < aData.length; i++) {
                         console.log("Dimension de vibración " + i + " " + aData[i].length)
                     }
-                    
-                    
-                    //for (var i = 0; i < aData.length; i++) {
-                    //    ejeY.push(i * 3);
-                    //}
-
-                    //for (var i = 0; i < aData.length; i++) {
-                    //    var linea = [];
-                    //    for (var j = 0; j < aData[0].length; j++) {
-                    //        linea.push({ x: parseFloat(aData[i][j]), y: ejeY[j] });
-                    //    }
-                    //    lineas.push(linea);
-                    //}
-
-                    //*************************************************************************
-                    
-
-                    var ctx = document.getElementById('chartModosVibracion').getContext("2d");
-
-                    //myLineChart = new Chart(ctx).Line(lineChartData);
 
 
-                    lineChartData = {}; //declare an object
+                   var ctx = document.getElementById('chartModosVibracion').getContext("2d");
+
+                   lineChartData = {}; //declare an object
                     lineChartData.labels = []; //add 'labels' element to object (X axis)
                     lineChartData.datasets = []; //add 'datasets' array element to object
 
@@ -84,19 +68,19 @@
                         // Para lineas rectas 0
                         dataset.lineTension = 0;
                         dataset.backgroundColor = "rgba(75,192," + (line * 10) + ",0.4)";
-                        dataset.fill= false,
+                        dataset.fill = false,
                         dataset.data = []; //contains the 'Y; axis data
-                        dataset.label = "Modo de vibración " + (line+1);
+                        dataset.label = "Modo de vibración " + (line + 1);
 
                         for (x = 0; x < aData[0].length; x++) {
-                            dataPoints.push({ x: parseFloat(aData[line][x]), y: parseFloat(x*3) });
+                            dataPoints.push({ x: parseFloat(aData[line][x]), y: parseFloat(x * 3) });
                         } //for x
 
                         lineChartData.datasets[line].data = dataPoints; //send new line data to dataset
                     } //for line
 
                     ctx = document.getElementById("chartModosVibracion").getContext("2d");
-                    
+
 
 
                     var scatterChart = new Chart(ctx, {
@@ -112,9 +96,9 @@
                             legend: {
                                 display: true,
                             },
-                           
+
                             scaleFontColor: "#FF5972",
-                            lineTension:10,
+                            lineTension: 10,
                             scales: {
                                 xAxes: [{
                                     type: 'linear',
@@ -145,9 +129,9 @@
 
                     //*************************************************************************
 
-                    
 
-                    
+
+
 
                 }
             });
@@ -173,7 +157,7 @@
 
                     console.log("Valor máximo " + aData);
                     $("#tbMaxPropiedad").val(aData);
-                   
+
                 }
             });
 
@@ -214,6 +198,18 @@
             return propiedades[categoria][posicionPropiedad];
         }
 
+        function graficarResultados(){
+            graficarPropiedad('chartPrimerGrafico', 'propiedad', 'gradoLibertad');
+            graficarPropiedad('chartSegundoGrafico', 'propiedadSegundoGrafico', 'gradoLibertadSegundoGrafico');
+            graficarPropiedad('chartTercerGrafico', 'propiedadTercerGrafico', 'gradoLibertadTercerGrafico');
+            graficarPropiedad('chartCuartoGrafico', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');
+        }
+
+
+        var primerChart = null;
+        var segundoChart = null;
+        var tercerChart = null;
+        var cuartoChart = null;
         function graficarPropiedad(idControl, ctrlPropiedad, ctrlGradoLibertad) {
             console.log(idControl);
             console.log("Propiedad " + ctrlPropiedad);
@@ -226,16 +222,13 @@
             console.log("Obteniendo la propiedad " + data_Propiedad);
 
 
-            /*var jsonData = JSON.stringify({
-                valPropiedad: data_Propiedad,
-                valGradoLibertad: data_GradoLibertad
-            });*/
+           
 
             var actionData = "{'propiedad': '" + data_Propiedad + "', 'gradoLibertad': '" + data_GradoLibertad + "'}";
 
             //console.log(jsonData);
 
-            
+
             $.ajax({
                 type: "POST",
                 url: "frmLayouts.aspx/getTiempoAndPropiedad",
@@ -259,7 +252,7 @@
 
                     var puntos = {
                         datasets: [{
-                            label: nombrePropiedad + ' vs Tiempo' ,
+                            label: nombrePropiedad + ' vs Tiempo',
                             fillColor: "rgba(151,249,190,0.5)",
                             strokeColor: "rgba(255,255,255,1)",
                             pointColor: "rgba(220,220,220,1)",
@@ -274,11 +267,20 @@
                     Chart.defaults.global.tooltipFillColor = "rgba(0,160,0,0.8)";
                     Chart.defaults.global.scaleLineColor = "black";
 
+                    
                     var ctx = document.getElementById(idControl).getContext("2d");
                     ctx.canvas.height = 300;  // setting height of canvas
                     ctx.canvas.width = 500; // setting width of canvas
                     
-                    var scatterChart = new Chart(ctx, {
+                    
+                    if (idControl == "chartPrimerGrafico") {
+                        console.log("Accediendo al control del primer gráfico.");
+                        if (primerChart != null) {
+                            console.log("Eliminando datos del primer gráfico");
+                            primerChart.destroy();
+                        }
+
+                        primerChart = new Chart(ctx, {
                         type: 'line',
                         data: puntos,
                         options: {
@@ -298,16 +300,107 @@
                                         labelString: $("#" + ctrlPropiedad).val()
                                     }
                                 }]
-                                
+
                             }
                         }
                     });
 
-                    
+                    } else if (idControl == "chartSegundoGrafico") {
+                        if (segundoChart != null) {
+                            console.log("Eliminando datos del segundo gráfico");
+                            segundoChart.destroy();
+                        }
+
+                        segundoChart = new Chart(ctx, {
+                        type: 'line',
+                        data: puntos,
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    type: 'linear',
+                                    id: 'Tiempo',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Tiempo'
+                                    }
+                                }],
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: $("#" + ctrlPropiedad).val()
+                                    }
+                                }]
+
+                            }
+                        }
+                    });
+                    } else if (idControl == "chartTercerGrafico") {
+                        if (tercerChart != null) {
+                            console.log("Eliminando datos del tercer gráfico");
+                            tercerChart.destroy();
+                        }
+
+                        tercerChart = new Chart(ctx, {
+                        type: 'line',
+                        data: puntos,
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    type: 'linear',
+                                    id: 'Tiempo',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Tiempo'
+                                    }
+                                }],
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: $("#" + ctrlPropiedad).val()
+                                    }
+                                }]
+
+                            }
+                        }
+                    });
+                    } else {
+                        if (cuartoChart != null) {
+                            console.log("Eliminando datos del cuarto gráfico");
+                            cuartoChart.destroy();
+                        }
+
+                        cuartoChart = new Chart(ctx, {
+                        type: 'line',
+                        data: puntos,
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    type: 'linear',
+                                    id: 'Tiempo',
+                                    position: 'bottom',
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Tiempo'
+                                    }
+                                }],
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: $("#" + ctrlPropiedad).val()
+                                    }
+                                }]
+
+                            }
+                        }
+                    });
+                    }
+
                 }
             });
-            
-            
+
+
         }
 
         // establece los valores de las propiedades y grado de libertad
@@ -324,7 +417,7 @@
 
 
             significadoPropiedades[0] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Fuerza Elástica', 'Desplazamiento Nodal Total'];
-            significadoPropiedades[1] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Energía de Disipación', 'Fuerza Elástica', 'Fuerza Externa', 'Fuerza Total', 'Desplazamiento Nodal Total'];
+            significadoPropiedades[1] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Energía de Disipación', 'Fuerza Elástica', 'Fuerza Disipativa', 'Fuerza Total', 'Desplazamiento Nodal Total'];
             significadoPropiedades[2] = ['Desplazamiento Nodal Total'];
             significadoPropiedades[3] = ['Desplazamiento Nodal Total'];
 
@@ -340,7 +433,7 @@
             var select = document.getElementById(ctrlGradoLibertad);
 
             // se agregan los grados de libertad
-            $('#'+ctrlGradoLibertad).empty();
+            $('#' + ctrlGradoLibertad).empty();
             for (var i = nroPisos; i >= 1; --i) {
                 var option = document.createElement('option');
                 option.text = option.value = i;
@@ -388,20 +481,20 @@
             asignarPropiedadControles("propiedadSegundoGrafico", "gradoLibertadSegundoGrafico");
             asignarPropiedadControles("propiedadTercerGrafico", "gradoLibertadTercerGrafico");
             asignarPropiedadControles("propiedadCuartoGrafico", "gradoLibertadCuartoGrafico");
-            asignarPropiedadControles("propiedadMax","gradoLibertadMax");
+            asignarPropiedadControles("propiedadMax", "gradoLibertadMax");
         }
 
-        
+
         function HideCtrlsInput(ddlId) {
             var NUM_FIL = 30;
-            var NUM_COL = 8;
+            var NUM_COL = 7;
             var $tbl = $("#tablaModal");
             var $tblhead = $("#tablaModal th");
 
             var ctrlNroPisos = document.getElementById(ddlId);
             var i;
             var nroPisos = Number(ctrlNroPisos.value);
-            
+
 
             // oculta filas
             for (i = 1; i <= NUM_FIL; i++) {
@@ -411,14 +504,14 @@
                     document.getElementById("tbM" + String(i)).disabled = false;
                     document.getElementById("tbU" + String(i)).disabled = false;
                     document.getElementById("tbI" + String(i)).disabled = false;
-                    document.getElementById("tbH" + String(i)).disabled = false;
+                    //document.getElementById("tbH" + String(i)).disabled = false;
                     fila.style.display = '';
                 } else {
                     document.getElementById("tbK" + String(i)).disabled = true;
                     document.getElementById("tbM" + String(i)).disabled = true;
                     document.getElementById("tbU" + String(i)).disabled = true;
                     document.getElementById("tbI" + String(i)).disabled = true;
-                    document.getElementById("tbH" + String(i)).disabled = true;
+                    //document.getElementById("tbH" + String(i)).disabled = true;
                     fila.style.display = 'none';
 
                     document.getElementById("tbK" + String(i)).value = "";
@@ -471,212 +564,62 @@
             cursor: pointer;
         }
     </style>
-    <script>
-        function graficar() {
-            $.ajax({
-                type: "POST",
-                url: "frmLayouts.aspx/getLineChartData",
-                data: "{}",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (msg) {
-                    /**
-                    Generación de datasets dinámicos
-                    **/
-
-                    var datasetValue = [];
-                    var count = 10;
-                    for (var j = 0; j < count; j++) {
-                        datasetValue[j] =
-                            {
-                                fillColor: 'rgba(220,220,220,0.5)',
-                                strokeColor: 'rgba(220,220,220,1)',
-                                title: '2013',
-                                data: [Math.round(Math.random() * 100), Math.round(Math.random() * 100) - 10]
-                            }
-                    }
-                    var mydata = {
-                        datasets: datasetValue
-                    }
-
-                    //Fin de generación de datasets dinámicos
-
-                    var aData = msg.d;
-
-                    var aLabels = aData[0];
-                    var aDatasets1 = aData[1];
-                    
-
-                    var data = {
-                        labels: aLabels,
-                        datasets: [{
-                            label: "u",
-                            //fillColor: "rgba(220,220,220,0.2)",
-                            fillColor: 'rgba(0,0,0,0)',
-                            strokeColor: "rgba(220,220,220,1)",
-                            pointColor: "rgba(220,220,220,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(220,220,220,1)",
-                            pointRadius: 0,
-                            data: aDatasets1
-                        }]
-                    }
-
-
-                    var data1 = {
-                        labels: aLabels,
-                        datasets: [{
-                            label: "u",
-                            fillColor: "rgba(151,187,205,0)",
-                            strokeColor: "rgba(151,187,205,1)",
-                            pointColor: "rgba(151,187,205,1)",
-                            data: aDatasets1
-                        }]
-                    }
-
-                    var data2 = {
-                        labels: aLabels,
-                        datasets: [{
-                            label: "up",
-                            fillColor: "rgba(220,220,220,0.2)",
-                            strokeColor: "rgba(220,220,220,1)",
-                            pointColor: "rgba(220,220,220,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: aDatasets1
-                        }]
-                    }
-
-                    var data3 = {
-                        labels: aLabels,
-                        datasets: [{
-                            label: "upp",
-                            fillColor: "rgba(220,220,220,0.2)",
-                            strokeColor: "rgba(220,220,220,1)",
-                            pointColor: "rgba(220,220,220,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: aDatasets1
-                        }]
-                    }
-
-                    var ctx = document.getElementById("chartPrimerGrafico").getContext("2d");
-                    ctx.canvas.height = 300;  // setting height of canvas
-                    ctx.canvas.width = 500; // setting width of canvas
-                    //var lineChart = new Chart(ctx).Line(data, {bezierCurve: false});
-
-                    //var lineChart = new Chart(ctx).Bar(data, { responsive: true });
-                    var myLineChart = new Chart(ctx, {
-                        type: 'line',
-                        // Fill style of the legend box
-                        fillStyle: Color,
-                        hidden: false,
-                        fill: false,
-                        legend: {
-                            display: true,
-                            labels: {
-                                fontColor: 'rgb(255, 99, 132)'
-                            }
-                        },
-                        data: data,
-                        options: {
-                            scales: {
-                                xAxes: [{
-                                    display: false
-                                }]
-                            }
-                        }
-                    });
-
-
-                    var ctx2 = document.getElementById("bar-area2").getContext("2d");
-                    ctx2.canvas.height = 300;  // setting height of canvas
-                    ctx2.canvas.width = 500; // setting width of canvas
-                    //var lineChart = new Chart(ctx).Line(data, {bezierCurve: false});
-
-                    //var lineChart = new Chart(ctx).Bar(data, { responsive: true });
-                    var myLineChart2 = new Chart(ctx2, {
-                        type: 'line',
-                        data: data1,
-                        options: {
-                            scales: {
-                                xAxes: [{
-                                    time: {
-                                        unit: 'second'
-                                    }
-                                }]
-                            }
-                        }
-                    });
-
-
-                    var ctx3 = document.getElementById("bar-area3").getContext("2d");
-                    ctx3.canvas.height = 300;  // setting height of canvas
-                    ctx3.canvas.width = 500; // setting width of canvas
-                    //var lineChart = new Chart(ctx).Line(data, {bezierCurve: false});
-
-                    //var lineChart = new Chart(ctx).Bar(data, { responsive: true });
-                    var myLineChart3 = new Chart(ctx3, {
-                        type: 'line',
-                        data: data2,
-                        options: {
-                            scales: {
-                                xAxes: [{
-                                    time: {
-                                        unit: 'second'
-                                    }
-                                }]
-                            }
-                        }
-                    });
-
-
-                    var ctx4 = document.getElementById("bar-area4").getContext("2d");
-                    ctx4.canvas.height = 300;  // setting height of canvas
-                    ctx4.canvas.width = 500; // setting width of canvas
-                    //var lineChart = new Chart(ctx).Line(data, {bezierCurve: false});
-
-                    //var lineChart = new Chart(ctx).Bar(data, { responsive: true });
-                    var myLineChart4 = new Chart(ctx4, {
-                        type: 'line',
-                        data: data3,
-                        options: {
-                            scales: {
-                                xAxes: [{
-                                    time: {
-                                        unit: 'second'
-                                    }
-                                }]
-                            }
-                        }
-                    });
-
-
-                }
-            });
-        };
-    </script>
+   
 
 
 
 </head>
 <body onload="HideCtrlsInput('ddlNCL');">
     <form id="form1" runat="server">
+        <div class="container-fluid">
+          <h1>VLNA - Análisis Modal</h1>
+          <p>Descripción: Análisis Modal.
+          <br/>Autor: Jhandry Moreno
+          <br/>Información: VLNA.pdf</p>
+               
+        </div> <!— /container —>
 
-        <div class="container">
-            <div class="row">
+        
+        <%--<div class="container-fluid">
+            
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">ENTRADA</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+            </div>
+            
+
+            
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">RESULTADOS</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>--%>
+
+        
+        
+
+
+        <div class="container-fluid">
+            <div class="row flex">
                 <p></p>
             </div>
+
+            <%--INPUT--%>
             <div class="row">
                 <div class="col-md-3">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default panel-height">
 
                         <div class="panel-heading">Análisis Modal</div>
-                        <div class="panel-body panel-height">
-                            <asp:RadioButtonList ID="rbCategoria" runat="server" CssClass="radio" onclick="loadConfiguracionCtrlsGraficos();">
+                        <div class="panel-body ">
+                            <asp:RadioButtonList ID="rbCategoria" runat="server" CssClass="radio input-xs" onclick="loadConfiguracionCtrlsGraficos();">
                                 <asp:ListItem class="radio-inline" Value="3" Selected="True">Vibración libre no amortiguada</asp:ListItem>
                                 <asp:ListItem class="radio-inline" Value="4">Vibración libre amortiguada</asp:ListItem>
                                 <asp:ListItem class="radio-inline" Value="5">Vibración armónica no amortiguada</asp:ListItem>
@@ -689,17 +632,18 @@
 
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="panel panel-primary">
+                <div class="col-md-3">
+                    <div class="panel panel-default panel-height">
 
                         <div class="panel-heading">Datos iniciales</div>
-                        <div class="panel-body panel-height">
-                            <form class="form-horizontal" role="form">
+                        <div class="panel-body">
+                            <form class="form-inline" role="form">
+
                                 <div class="form-group">
-                                    <%--<asp:Label for="inputdefault" ID="lblNCL" runat="server" Text="Grados de Libertad" class="col-md-4 control-label"></asp:Label>--%>
-                                    <div class="col-md-12">
-                                        <asp:DropDownList ID="ddlNCL" runat="server" CssClass="form-control input-sm " onclick="loadConfiguracionCtrlsGraficos();">
-                                            <asp:ListItem Value="GDL">Grados de Libertad</asp:ListItem>
+                                    <h6><asp:Label for="inputdefault" ID="lblNCL" runat="server" Text="Grados de Libertad" class="col-md-6 control-label "></asp:Label></h6>
+                                    <div class="col-md-6">
+                                        <asp:DropDownList ID="ddlNCL" runat="server" CssClass="form-control input-xs" onclick="loadConfiguracionCtrlsGraficos();">
+                                            <%--<asp:ListItem Value="GDL">Grados de Libertad</asp:ListItem>--%>
                                             <asp:ListItem Value="1">1</asp:ListItem>
                                             <asp:ListItem Value="2">2</asp:ListItem>
                                             <asp:ListItem Value="3">3</asp:ListItem>
@@ -736,50 +680,54 @@
                                 </div>
                                 <br />
                                 <div class="form-group">
-                                    <%--<asp:Label ID="lblTO" runat="server" Text="Tiempo inicial (s)" class="col-md-4 control-label"></asp:Label>--%>
-                                    <div class="col-md-12">
-                                        <asp:TextBox ID="tbTO" runat="server" CssClass="form-control input-sm" placeholder="Tiempo inicial (s)"></asp:TextBox>
+                                    <h6><asp:Label ID="lblTO" runat="server" Text="Tiempo inicial (s)" class="col-md-6 control-label"></asp:Label></h6>
+                                    <div class="col-md-6">
+                                        <asp:TextBox ID="tbTO" runat="server" CssClass="form-control input-xs" placeholder="Tiempo inicial (s)"></asp:TextBox>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="form-group">
-                                    <%--<asp:Label ID="lblTF" runat="server" Text="Tiempo final (s)" class="col-md-4 control-label"></asp:Label>--%>
-                                    <div class="col-md-12">
-                                        <asp:TextBox ID="tbTF" runat="server" CssClass="form-control input-sm" placeholder="Tiempo final (s)"></asp:TextBox>
+                                    <h6><asp:Label ID="lblTF" runat="server" Text="Tiempo final (s)" class="col-md-6 control-label"></asp:Label></h6>
+                                    <div class="col-md-6">
+                                        <asp:TextBox ID="tbTF" runat="server" CssClass="form-control input-xs" placeholder="Tiempo final (s)"></asp:TextBox>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="form-group">
-                                    <%--<asp:Label ID="lblPA" runat="server" Text="Incremento de tiempo" class="col-md-4 control-label"></asp:Label>--%>
-                                    <div class="col-md-12">
-                                        <asp:TextBox ID="tbPA" runat="server" CssClass="form-control input-sm" placeholder="Incremento de tiempo"></asp:TextBox>
+                                    <h6><asp:Label ID="lblPA" runat="server" Text="Incremento de tiempo" class="col-md-6 control-label"></asp:Label></h6>
+                                    <div class="col-md-6">
+                                        <asp:TextBox ID="tbPA" runat="server" CssClass="form-control input-xs" placeholder="Incremento de tiempo"></asp:TextBox>
                                     </div>
                                 </div>
-                                <br />
                                 
-                                <br />
+
+
+
                                 <div class="form-group">
+                                    <br />
+                                   <br />
+                                    <div class="col-md-12">
+                                        <button type="button" class=" btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal" onclick="HideCtrlsInput('ddlNCL');">Establecer propiedades mecánicas</button>
 
-                                    <!-- Trigger the modal with a button -->
-                                    <button type="button" class="col-md-5 btn btn-info btn-md" data-toggle="modal" data-target="#myModal" onclick="HideCtrlsInput('ddlNCL');">Set Vars</button>
-                                    <div class="col-md-2">
+                                        <asp:Button ID="btnRun" class=" btn btn-danger btn-xs" runat="server" Text="Ejecutar" OnClick="btnRun_Click" />
                                     </div>
-                                    <asp:Button ID="btnRun" class="col-md-5 btn btn-info btn-md" runat="server" Text="Run" OnClick="btnRun_Click" />
-
                                 </div>
                             </form>
 
 
+
+
                         </div>
 
+                        
 
                     </div>
                 </div>
-                <div class="col-md-5">
-                    <div class="panel panel-success">
+                <div class="col-md-6">
+                    <div class="panel panel-success panel-height">
 
                         <div class="panel-heading">Esquema</div>
-                        <div class="panel-body panel-height">
+                        <div class="panel-body ">
                             <p>...</p>
                         </div>
 
@@ -788,115 +736,245 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
 
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            
-                    Propiedad
-                    <select id="propiedad" name="propiedad"></select>
-                    Grado de libertad
-                    <select id="gradoLibertad" name="gradoLibertad" onchange="graficarPropiedad('chartPrimerGrafico', 'propiedad', 'gradoLibertad');"></select>
-                    <input id="btnTrazarPrimerGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartPrimerGrafico', 'propiedad', 'gradoLibertad');"/>
-                    
-                        <canvas id="chartPrimerGrafico" />
+
+            <%--RESULTADOS--%>
+            <div class="row">
+                <div class="col-md-4">
+                    <%--Propiedades máximas--%>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default propiedadmax-height">
+                                <div class="panel-heading">Propiedad máxima</div>
+                                <div class="panel-body panel-height">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="label label-default">Propiedad</label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select id="propiedadMax" class="form-control input-xs" name="propiedad"></select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="label label-default">Grado de libertad</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select id="gradoLibertadMax" class="form-control input-xs" name="gradoLibertad" onchange="getMaxPropiedad('propiedadMax', 'gradoLibertadMax');"></select>
+                                        </div>
+                                       
+                                    </div>
+                                    
+                                    <br/>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <input id="btnObtenerMaxPropiedad" class="btn btn-danger btn-xs" type="button" value="Obtener" onclick="getMaxPropiedad('propiedadMax', 'gradoLibertadMax');" />
+                                        </div>
+
+                                        
+
+                                        <div class="col-md-4">
+                                            <input class="form-control input-xs" id="tbMaxPropiedad" type="text" />
+                                        </div>
+
+                                        <%--<div class ="col-md-3">
+                                            <label class="label label-default">Valor máximo</label>
+                                            
+                                        </div>--%>
+                                    </div>
+    
+                                </div>
+                            </div>
+
+
+
+
+
                         </div>
                     </div>
-                    
-
-                </div>
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            Propiedad
-                    <select id="propiedadSegundoGrafico" name="propiedad"></select>
-                    Grado de libertad
-                    <select id="gradoLibertadSegundoGrafico" name="gradoLibertad" onchange="graficarPropiedad('chartSegundoGrafico', 'propiedadSegundoGrafico', 'gradoLibertadSegundoGrafico');"></select>
-                    <input id="btnTrazarSegundoGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartSegundoGrafico', 'propiedadSegundoGrafico', 'gradoLibertadSegundoGrafico');"/>
-                    <canvas id="chartSegundoGrafico" />
-
-</div>
-</div>
-                    
-
-                </div>
-
-            </div>
-            <div class="row">
-
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                             Propiedad
-                    <select id="propiedadTercerGrafico" name="propiedad"></select>
-                    Grado de libertad
-                    <select id="gradoLibertadTercerGrafico" name="gradoLibertad" onchange="graficarPropiedad('chartTercerGrafico', 'propiedadTercerGrafico', 'gradoLibertadTercerGrafico');"></select>
-                    <input id="btnTrazarTercerGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartTercerGrafico', 'propiedadTercerGrafico', 'gradoLibertadTercerGrafico');"/>
-                    <canvas id="chartTercerGrafico" />
-</div>
-</div>
-
-                   
+                    <%--Modos de vibración--%>
+                    <div class="row">
+                        <div class="col-md-12">
 
 
-                </div>
-                <div class="col-md-6">
-                    
-                        <div class="panel panel-default">
-                        <div class="panel-body">
-                             Propiedad
-                        <select id="propiedadCuartoGrafico" name="propiedad"></select>
-                        Grado de libertad
-                        <select id="gradoLibertadCuartoGrafico" name="gradoLibertad" onchange="graficarPropiedad('chartCuartoGrafico', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');"></select>
-                        <input id="btnTrazarCuartoGrafico" type="button" value="Graficar" onclick="graficarPropiedad('chartCuartoGrafico', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');"/>
-                        <canvas id="chartCuartoGrafico" />
-</div>
-</div>
-                       
-                        
-                   
-                </div>
+                            <div class="panel panel-default">
 
-            </div>
+                                <div class="panel-heading">Modos de Vibración</div>
+                                <div class="panel-body panel-height">
+                                    <div class="form-group">
+                                        <input class="btn btn-danger btn-xs" id="btnTrazarQuintoGrafico" type="button" value="Graficar" onclick="graficarModosVibracion();" />
+                                    </div>
+                                    
+                                    <canvas id="chartModosVibracion" />
+                                </div>
 
-            <%-- Propiedades máximas --%>
-            <div class="row">
+                                <%--<table class="table">
+                        </table>--%>
+                            </div>
 
-                <div class="col-md-6">
-                    <div class="panel panel-success">
-                        
+
+
+
+
+
+                        </div>
                     </div>
-                    <h2>Propiedad máxima</h2>
-
-                    Propiedad
-                    <select id="propiedadMax" name="propiedad"></select>
-                    Grado de libertad
-                    <select id="gradoLibertadMax" name="gradoLibertad" onchange="getMaxPropiedad('propiedadMax', 'gradoLibertadMax');"></select>
-                    <input id="btnObtenerMaxPropiedad" type="button" value="Obtener" onclick="getMaxPropiedad('propiedadMax', 'gradoLibertadMax');"/>
-                    <br />
-                    <br />
-                    Valor máximo <input id="tbMaxPropiedad" type="text" />
-
-
                 </div>
-                <div class="col-md-6">
+
+                <%--Gráficos--%>
+                <div class="col-md-8">
+
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="label label-default">Propiedad</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select id="propiedad" name="propiedad" class="form-control input-xs"></select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="label label-default">Grado de libertad</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select id="gradoLibertad" name="gradoLibertad" class="form-control input-xs" onchange="graficarPropiedad('chartPrimerGrafico', 'propiedad', 'gradoLibertad');"></select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input id="btnTrazarPrimerGrafico" class="btn btn-danger btn-xs" type="button" value="Graficar" onclick="graficarPropiedad('chartPrimerGrafico', 'propiedad', 'gradoLibertad');" />
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <canvas id="chartPrimerGrafico" width="500" height="300"/>
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                     <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="label label-default">Propiedad</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select id="propiedadSegundoGrafico" name="propiedad" class="form-control input-xs"></select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="label label-default">Grado de libertad</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select id="gradoLibertadSegundoGrafico" name="gradoLibertad" class="form-control input-xs" onchange="graficarPropiedad('chartSegundoGrafico', 'propiedadSegundoGrafico', 'gradoLibertadSegundoGrafico');"></select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input id="btnTrazarSegundoGrafico" class="btn btn-danger btn-xs" type="button" value="Graficar" onclick="graficarPropiedad('chartSegundoGrafico', 'propiedadSegundoGrafico', 'gradoLibertadSegundoGrafico');" />
+                                        </div>
+                                    </div>
+                                    
+                                   
+                                    
+                                    
+                                    <canvas id="chartSegundoGrafico" width="500" height="300"/>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                     <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="label label-default">Propiedad</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select id="propiedadTercerGrafico" name="propiedad" class="form-control input-xs"></select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="label label-default">Grado de libertad</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select id="gradoLibertadTercerGrafico" name="gradoLibertad" class="form-control input-xs"  onchange="graficarPropiedad('chartTercerGrafico', 'propiedadTercerGrafico', 'gradoLibertadTercerGrafico');"></select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input id="btnTrazarTercerGrafico" class="btn btn-danger btn-xs" type="button" value="Graficar" onclick="graficarPropiedad('chartTercerGrafico', 'propiedadTercerGrafico', 'gradoLibertadTercerGrafico');" />
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                   
                     
-                        <h3>Modos de Vibración</h3>
-                        <input id="btnTrazarQuintoGrafico" type="button" value="Graficar" onclick="graficarModosVibracion();"/>
-                         <canvas id="chartModosVibracion" />
+                                    
+                                    <canvas id="chartTercerGrafico"  width="500" height="300"/>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                     <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="label label-default">Propiedad</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select id="propiedadCuartoGrafico" name="propiedad" class="form-control input-xs"></select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="label label-default">Grado de libertad</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select id="gradoLibertadCuartoGrafico" name="gradoLibertad" class="form-control input-xs" onchange="graficarPropiedad('chartCuartoGrafico', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');"></select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input id="btnTrazarCuartoGrafico" class="btn btn-danger btn-xs" type="button" value="Graficar" onclick="graficarPropiedad('chartCuartoGrafico', 'propiedadCuartoGrafico', 'gradoLibertadCuartoGrafico');" />
+                                        </div>
+                                    </div>
+
+
                         
-                   
+                                    
+                                    <canvas id="chartCuartoGrafico" width="500" height="300" />
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+
+
+
                 </div>
-
             </div>
-
-
 
 
             <!-- Modal -->
             <div id="myModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
+                <div class="modal-dialog" id="mdialTamanio">
 
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -908,15 +986,15 @@
                             <table id="tablaModal" class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Piso</th>
-                                        <th class="M">Masa</th>
-                                        <th class="K">Rigidez</th>
-                                        <th class="C">Amortiguamiento</th>
-                                        <th class="U">Desp. inicial</th>
-                                        <th class="I">Vel. incial</th>
-                                        <th class="F">Fuerza</th>
-                                        <th class="W">Frec. de mov.</th>
-                                        <th class="H">A. piso</th>
+                                        <th><h6>Piso</h6></th>
+                                        <th class="M"><h6>Masa (m)</h6></th>
+                                        <th class="K"><h6>Rigidez (k)</h6></th>
+                                        <th class="C"><h6>Amortiguamiento (c)</h6></th>
+                                        <th class="U"><h6>Desp. inicial (u<sub>0</sub> )</h6></th>
+                                        <th class="I"><h6>Vel. incial (ů<sub>0</sub>)</h6></th>
+                                        <th class="F"><h6>Carga (P<sub>0</sub> )</h6></th>
+                                        <th class="W"><h6>Frec. de mov. (ω)</h6></th>
+                                        <%--<th class="H">A. piso</th>--%>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -936,8 +1014,8 @@
                                             <asp:TextBox ID="tbF1" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW1" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH1" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH1" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -956,8 +1034,8 @@
                                             <asp:TextBox ID="tbF2" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW2" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH2" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH2" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -976,8 +1054,8 @@
                                             <asp:TextBox ID="tbF3" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW3" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH3" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH3" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -996,8 +1074,8 @@
                                             <asp:TextBox ID="tbF4" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW4" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH4" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH4" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1016,8 +1094,8 @@
                                             <asp:TextBox ID="tbF5" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW5" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH5" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH5" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1036,8 +1114,8 @@
                                             <asp:TextBox ID="tbF6" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW6" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH6" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH6" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1056,8 +1134,8 @@
                                             <asp:TextBox ID="tbF7" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW7" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH7" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH7" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1076,8 +1154,8 @@
                                             <asp:TextBox ID="tbF8" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW8" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH8" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH8" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1096,8 +1174,8 @@
                                             <asp:TextBox ID="tbF9" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW9" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH9" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                       <%-- <td>
+                                            <asp:TextBox ID="tbH9" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1116,8 +1194,8 @@
                                             <asp:TextBox ID="tbF10" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW10" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH10" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH10" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1136,8 +1214,8 @@
                                             <asp:TextBox ID="tbF11" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW11" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH11" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH11" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1156,8 +1234,8 @@
                                             <asp:TextBox ID="tbF12" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW12" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH12" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH12" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1176,8 +1254,8 @@
                                             <asp:TextBox ID="tbF13" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW13" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH13" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH13" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1196,8 +1274,8 @@
                                             <asp:TextBox ID="tbF14" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW14" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH14" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH14" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
 
@@ -1217,8 +1295,8 @@
                                             <asp:TextBox ID="tbF15" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW15" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH15" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH15" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1237,8 +1315,8 @@
                                             <asp:TextBox ID="tbF16" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW16" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH16" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH16" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1257,8 +1335,8 @@
                                             <asp:TextBox ID="tbF17" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW17" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH17" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                       <%-- <td>
+                                            <asp:TextBox ID="tbH17" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1277,8 +1355,8 @@
                                             <asp:TextBox ID="tbF18" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW18" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH18" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH18" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1297,8 +1375,8 @@
                                             <asp:TextBox ID="tbF19" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW19" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH19" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH19" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1317,8 +1395,8 @@
                                             <asp:TextBox ID="tbF20" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW20" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH20" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH20" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1337,8 +1415,8 @@
                                             <asp:TextBox ID="tbF21" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW21" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH21" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH21" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1357,8 +1435,8 @@
                                             <asp:TextBox ID="tbF22" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW22" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH22" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH22" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1377,8 +1455,8 @@
                                             <asp:TextBox ID="tbF23" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW23" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH23" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH23" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1397,8 +1475,8 @@
                                             <asp:TextBox ID="tbF24" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW24" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH24" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH24" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1417,8 +1495,8 @@
                                             <asp:TextBox ID="tbF25" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW25" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH25" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH25" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1437,8 +1515,8 @@
                                             <asp:TextBox ID="tbF26" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW26" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH26" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH26" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1457,8 +1535,8 @@
                                             <asp:TextBox ID="tbF27" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW27" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH27" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH27" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1477,8 +1555,8 @@
                                             <asp:TextBox ID="tbF28" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW28" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH28" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH28" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1497,8 +1575,8 @@
                                             <asp:TextBox ID="tbF29" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW29" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH29" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                        <%--<td>
+                                            <asp:TextBox ID="tbH29" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
                                     <tr>
@@ -1517,8 +1595,8 @@
                                             <asp:TextBox ID="tbF30" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
                                         <td>
                                             <asp:TextBox ID="tbW30" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
-                                        <td>
-                                            <asp:TextBox ID="tbH30" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>
+                                       <%-- <td>
+                                            <asp:TextBox ID="tbH30" runat="server" CssClass="form-control input-sm"></asp:TextBox></td>--%>
                                     </tr>
 
 
