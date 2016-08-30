@@ -50,7 +50,7 @@
         
             <%--INPUT--%>
 
-        <div class="panel panel-success">
+        <div class="panel panel-default">
             <div class="panel-heading">ENTRADA</div>
             <div class="panel-body">
                 <div class="row">
@@ -72,7 +72,7 @@
                     <div class="col-md-3 sinespacios highInputAnalisiEstatico">
                         <div class="panel panel-default ">
                             <div class="panel-heading">Datos Previos</div>
-                            <div class="panel-body">
+                            <div class="panel-body highInputAnalisiEstatico">
 
                                 
 
@@ -199,21 +199,33 @@
                                     </div>
                                 </div>--%>
 
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-md-12 sinespacios">
+                                        
+
+                                       <button id="btnRun" type="submit" class="btn btn-warning btn-xs">Ejecutar</button>
+                                        <button id="btnEjemplo" type="button" class="btn btn-default btn-xs">Ejemplo</button>
+                                        
+
+                                    </div>
+                                    
+                                </div>
                                 
                             
                         </div>
 
-                        <div class="panel-footer">
+                        <%--<div class="panel-footer">
                             <div class="form-group">
                                     <div class="col-md-12 sinespacios">
-                                        <button id="btnRun" type="submit" class="btn btn-warning btn-xs">Ejecutar</button>
+                                        
 
-                                        <%--<input id="btnValidar" type="submit" class="btn btn-warning btn-xs" value="Validar"/>--%>
+                                        <input id="btnValidar" type="submit" class="btn btn-warning btn-xs" value="Validar"/>
                                         
 
                                     </div>
                             </div>
-                        </div>
+                        </div>--%>
 
                     </div>
                 </div>
@@ -234,125 +246,66 @@
             <div class="panel panel-default">
                 <div class="panel-heading">SALIDA</div>
                 <div class="panel-body">
+
+   
+
                     <div class="row col-condensed">
                         <div class="col-md-3 sinespacios">
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    
-                                    <div class="form-horizontal ">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-2">Tmin: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbMin" runat="server" CssClass="form-control input-sm" placeholder="Tensión mímima"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">KN</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label class="control-label col-md-2">To: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbTo" runat="server" CssClass="form-control input-sm" placeholder="Tensión punto O"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">KN</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label class="control-label col-md-2">Tf: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbTf" runat="server" CssClass="form-control input-sm" placeholder="Tensión punto F "></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">KN</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label class="control-label col-md-2">Tmax: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbTmax" runat="server" CssClass="form-control input-sm" placeholder="Tensión máxima"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">KN</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                             <label class="control-label col-md-2">Tten: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbTten" runat="server" CssClass="form-control input-sm" placeholder="Tensión en los Tensores"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">KN</label>
-                                            </div>
-                                        </div>
 
-                                        <div class="form-group">
-                                             <label class="control-label col-md-2">Nten: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbNten" runat="server" CssClass="form-control input-sm" placeholder="Número de Tensores"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">#</label>
-                                            </div>
-                                        </div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <span id="spMin" class="badge badge-light">KN</span>
+                                            Tensión mínima (Tmin)
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span id="spTo" class="badge badge-light">KN</span>
+                                            Tensión punto O (To)
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span id="spTf" class="badge badge-light">KN</span>
+                                            Tensión punto F (Tf)
+                                        </li>
+                                         <li class="list-group-item">
+                                            <span id="spTmax" class="badge badge-light">KN</span>
+                                            Tensión máxima (Tmax)
+                                        </li>
+                                         
+                                         <li class="list-group-item">
+                                            <span id="spTten" class="badge badge-light">KN</span>
+                                            Tensión en los Tensores (Tten)
+                                        </li>
+                                         <li class="list-group-item">
+                                            <span id="spNten" class="badge badge-light">#</span>
+                                            Número de Tensores (Nten)
+                                        </li>
+                                         <li class="list-group-item">
+                                            <span id="spS" class="badge badge-light">m</span>
+                                            Longitud del Cable (S)
+                                        </li>
                                         
-                                        <div class="form-group">
-                                            <label class="control-label col-md-2">S: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbS" runat="server" CssClass="form-control input-sm" placeholder="Longitud del Cable "></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">m</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label class="control-label col-md-2">Lo: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbLo" runat="server" CssClass="form-control input-sm" placeholder="Distancia o vano punto O"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">m</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label class="control-label col-md-2">Lf: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbLf" runat="server" CssClass="form-control input-sm" placeholder="Distancia o vano punto F"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">m</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label class="control-label col-md-2">DTo: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbDTo" runat="server" CssClass="form-control input-sm" placeholder="Dist. punto O y Tensor"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">m</label>
-                                            </div>
-                                        </div>
+                                         <li class="list-group-item">
+                                            <span id="spLo" class="badge badge-light">m</span>
+                                            Distancia o vano punto O (Lo)
+                                        </li>
+                                         <li class="list-group-item">
+                                            <span id="spLf" class="badge badge-light">m</span>
+                                            Distancia o vano punto F (Lf)
+                                        </li>
 
-                                        <div class="form-group">
-                                            <label class="control-label col-md-2">DTf: </label>
-                                            <div class="col-md-8">
-                                                <asp:TextBox ID="tbDTf" runat="server" CssClass="form-control input-sm" placeholder="Dist. punto F y Tensor"></asp:TextBox>
-                                            </div>
-                                            <div class="col-md-2 text-left">
-                                                <label class="control-label">m</label>
-                                            </div>
-                                        </div>
+                                        <li class="list-group-item">
+                                            <span id="spDTo" class="badge badge-light">m</span>
+                                            Dist. punto O y Tensor (DTo)
+                                        </li>
 
+                                        <li class="list-group-item">
+                                            <span id="spDTf" class="badge badge-light" >m</span>
+                                            Dist. punto F y Tensor (DTf)
+                                        </li>
+                                    </ul>
 
                                     
-                                    </div>
                                 </div>
                                 <div class="panel-footer">
                                     <input id="btnDecargarResultados" type="button" class="btn btn-danger btn-xs" value="Descargar"/>
@@ -366,7 +319,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <canvas id="chartCable" width="100" height="100" />
+                                            <canvas id="chartCable" width="500" height="198" />
 
                                         </div>
                                        
@@ -389,7 +342,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <canvas id="chartTensor" width="100" height="100" />
+                                            <canvas id="chartTensor" width="500" height="198" />
 
                                         </div>
                                         
@@ -412,7 +365,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <canvas id="chartCarga" width="100" height="100" />
+                                            <canvas id="chartCarga" width="500" height="198" />
 
                                         </div>
                                         
@@ -434,7 +387,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <canvas id="chartCableTensoresCarga" width="100" height="100" />
+                                            <canvas id="chartCableTensoresCarga" width="500" height="198" />
 
                                         </div>
                                         

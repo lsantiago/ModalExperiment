@@ -1,4 +1,6 @@
-﻿function generarInformeTXT(msg) {
+﻿
+
+function generarInformeTXT(msg) {
     // captura los datos del archivo de resultados
     var aData = msg.d;
 
@@ -11,7 +13,7 @@
 
 function graficarResultados(msg) {
     console.log("Obteniendo resultados");
-    var alturaChart = 200;
+    var alturaChart = 198;
     var anchoChart = 500;
 
 
@@ -19,18 +21,17 @@ function graficarResultados(msg) {
     // captura los datos de la propiedad desde el archivo de resultados
     var aData = msg.d;
 
-    $("#tbMin").val(aData[0]);
-    $("#tbTo").val(aData[1]);
-    $("#tbTf").val(aData[2]);
-    $("#tbTmax").val(aData[3]);
-    $("#tbTten").val(aData[4]);
-    $("#tbNten").val(aData[5]);
-    $("#tbS").val(aData[6]);
-    $("#tbLo").val(aData[7]);
-    $("#tbLf").val(aData[8]);
-    $("#tbDTo").val(aData[9]);
-    $("#tbDTf").val(aData[10]);
-
+    $("#spMin").html("<b>" + aData[0] + "</b> " + "KN");
+    $("#spTo").html("<b>" + aData[1] + "</b> " + "KN");
+    $("#spTf").html("<b>" + aData[2] + "</b> " + "KN");
+    $("#spTmax").html("<b>" + aData[3] + "</b> " + "KN");
+    $("#spTten").html("<b>" + aData[4] + "</b> " + "KN");
+    $("#spNten").html("<b>" + aData[5] + "</b> " + "#");
+    $("#spS").html("<b>" + aData[6] + "</b> " + "m");
+    $("#spLo").html("<b>" + aData[7] + "</b> " + "m");
+    $("#spLf").html("<b>" + aData[8] + "</b> " + "m");
+    $("#spDTo").html("<b>" + aData[9] + "</b> " + "m");
+    $("#spDTf").html("<b>" + aData[10] + "</b> " + "m");
 
     console.log(aData[12].length);
 
@@ -353,6 +354,17 @@ function ejecutarModelo() {
 }
 
 $(document).ready(function () {
+
+    $('#btnEjemplo').click(function () {
+        console.log("Cargando ejemplo.");
+        $('#rbCategoria input:checked').val(1);
+        $('#tbHo').val(3);
+        $("#tbHF").val(4.5);
+        $("#tbL").val(7.5);
+        $("#tbWo").val(8.76);
+        $("#tbDT").val(0.5);
+
+    });
     
     $('#formAnalisiEstatico').submit(function (event) {
         if (this.checkValidity()) {

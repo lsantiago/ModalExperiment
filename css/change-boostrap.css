@@ -71,6 +71,36 @@
 
 
 
+.badge-transparent { background-color: transparent!important }
+
+.badge-grey { background-color: #a0a0a0!important }
+
+.badge-info { background-color: #3a87ad!important }
+
+.badge-primary { background-color: #2283c5!important }
+
+.badge-success { background-color: #82af6f!important }
+
+.badge-important { background-color: #d15b47!important }
+
+.badge-inverse { background-color: #333!important }
+
+.badge-warning { background-color: #f89406!important }
+
+.badge-pink { background-color: #d6487e!important }
+
+.badge-purple { background-color: #9585bf!important }
+
+.badge-yellow { background-color: #fee188!important }
+
+
+
+.label-yellow { color: #963!important; border-color: #fee188 }
+
+.label-light { color: #888!important }
+
+
+
 
 
 
