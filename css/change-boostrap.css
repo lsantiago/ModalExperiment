@@ -1,4 +1,8 @@
-﻿.anchoTextoEntrada{
+﻿body{
+	background:#D0D0D0;
+}
+
+.anchoTextoEntrada{
     width: 204px;
 }
 
@@ -6,14 +10,25 @@
     width: 55px;
 }
 
-.fixed-panel {
-  min-height: 10;
-  max-height: 10;
+/*.fixed-panel {
+  min-height: 270;
+  max-height: 270;
   overflow-y: scroll;
+}*/
+
+
+.equal, .equal > div[class*='col-'] {  
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex:1 1 auto;
 }
 
+
 .panel-height {
-  height: 270px;  /change according to your requirement
+  /*height: 270px;  /change according to your requirement*/
 }
 
 .propiedadmax-height {

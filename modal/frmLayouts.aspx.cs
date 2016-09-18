@@ -19,6 +19,19 @@ public partial class demos_frmLayouts : System.Web.UI.Page
 
     }
 
+    // Borrar el archivo de resultados existente
+    [WebMethod]
+    public static String borrarResultados()
+    {
+        System.IO.StreamWriter file = new System.IO.StreamWriter(PATH_FILE_IN);
+        file.WriteLine("");
+
+        file.Close();
+
+        return "Archivo borrado con éxito.";
+    }
+
+
     [WebMethod]
     // Lee todos los datos de Vibración
     public static List<object> getModosVibracion()

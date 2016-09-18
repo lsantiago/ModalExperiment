@@ -17,6 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
     
+    <script src="../js/jquery.matchHeight.js" type="text/javascript"></script>
     <%--<script src="../js/waitingfor.js"></script>--%>
     
     <!-- Valiation data -->
@@ -28,9 +29,27 @@
             loadConfiguracionCtrlsGraficos();
             
             // solo para mostrar los espacios gráficos
-            graficarResultados();
-            graficarModosVibracion();
+            //borrarResultadoAnterior();
+            //graficarResultados();
+            //graficarModosVibracion();
+
+            // ajusta el tamaño de las columnaas
+            $('.equal-height-panels .panel').matchHeight();
         });
+
+
+        function borrarResultadoAnterior() {
+            $.ajax({
+                type: "POST",
+                url: "frmLayouts.aspx/borrarResultados",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    console.log(msg.d);
+                }
+            });
+        }
 
         function graficarModosVibracion() {
             console.log("Graficando los modos de vibración.");
@@ -178,10 +197,10 @@
             propiedades[2] = ['Un1'];
             propiedades[3] = ['Un1'];
 
-            significadoPropiedades[0] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Fuerza Elástica', 'Desplazamiento Nodal Total'];
-            significadoPropiedades[1] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Energía de Disipación', 'Fuerza Elástica', 'Fuerza Externa', 'Fuerza Total', 'Desplazamiento Nodal Total'];
-            significadoPropiedades[2] = ['Desplazamiento Nodal Total'];
-            significadoPropiedades[3] = ['Desplazamiento Nodal Total'];
+            significadoPropiedades[0] = ['Desplazamiento u(t)', 'Velocidad ů(t)', 'Aceleración ü(t)', 'E. Cinética Ek(t)', 'E. Potencial Es(t)', 'E. Total EI(t)', 'Fuerza Elástica fs', 'Desplazamiento Nodal Total u(t)'];
+            significadoPropiedades[1] = ['Desplazamiento u(t)', 'Velocidad ů(t)', 'Aceleración ü(t)', 'E. Cinética Ek(t)', 'E. Potencial Es(t)', 'E. Total EI(t)', 'Energía de Disipación ED(t)', 'Fuerza Elástica', 'Fuerza Externa', 'Fuerza Total', 'Desplazamiento Nodal Total u(t)'];
+            significadoPropiedades[2] = ['Desplazamiento Nodal Total u(t)'];
+            significadoPropiedades[3] = ['Desplazamiento Nodal Total u(t)'];
 
 
             // obtiene el tipo de analísis modal
@@ -291,7 +310,7 @@
                                     position: 'bottom',
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Tiempo'
+                                        labelString: 'Tiempo (s)'
                                     }
                                 }],
                                 yAxes: [{
@@ -322,7 +341,7 @@
                                     position: 'bottom',
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Tiempo'
+                                        labelString: 'Tiempo (s)'
                                     }
                                 }],
                                 yAxes: [{
@@ -352,7 +371,7 @@
                                     position: 'bottom',
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Tiempo'
+                                        labelString: 'Tiempo (s)'
                                     }
                                 }],
                                 yAxes: [{
@@ -382,7 +401,7 @@
                                     position: 'bottom',
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Tiempo'
+                                        labelString: 'Tiempo (s)'
                                     }
                                 }],
                                 yAxes: [{
@@ -416,10 +435,10 @@
 
 
 
-            significadoPropiedades[0] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Fuerza Elástica', 'Desplazamiento Nodal Total'];
-            significadoPropiedades[1] = ['Desplazamiento', 'Velocidad', 'Aceleración', 'E. Cinética', 'E. Potencial', 'E. Total', 'Energía de Disipación', 'Fuerza Elástica', 'Fuerza Disipativa', 'Fuerza Total', 'Desplazamiento Nodal Total'];
-            significadoPropiedades[2] = ['Desplazamiento Nodal Total'];
-            significadoPropiedades[3] = ['Desplazamiento Nodal Total'];
+            significadoPropiedades[0] = ['Desplazamiento u(t)', 'Velocidad ů(t)', 'Aceleración ü(t)', 'E. Cinética Ek(t)', 'E. Potencial Es(t)', 'E. Total EI(t)', 'Fuerza Elástica fs', 'Desplazamiento Nodal Total u(t)'];
+            significadoPropiedades[1] = ['Desplazamiento u(t)', 'Velocidad ů(t)', 'Aceleración ü(t)', 'E. Cinética Ek(t)', 'E. Potencial Es(t)', 'E. Total EI(t)', 'Energía de Disipación ED(t)', 'Fuerza Elástica', 'Fuerza Externa', 'Fuerza Total', 'Desplazamiento Nodal Total u(t)'];
+            significadoPropiedades[2] = ['Desplazamiento Nodal Total u(t)'];
+            significadoPropiedades[3] = ['Desplazamiento Nodal Total u(t)'];
 
             /*
             significadoPropiedades[0] = ['Desplazamiento (mm)', 'Velocidad (m/s)', 'Aceleración (m/s^2)', 'E. Cinética (tonf x m)', 'E. Potencial (tonf x m)', 'E. Total (tonf x m)', 'Fuerza Elástica (tonf)', 'Desplazamiento Nodal Total (m)'];
@@ -571,8 +590,34 @@
 </head>
 <body onload="HideCtrlsInput('ddlNCL');">
     <form id="form1" runat="server">
+         <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+                <p class="navbar-brand">VLNA - Análisis Modal</p>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+              
+              
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Ayuda</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        
+        
+        
+        
         <div class="container-fluid">
-          <h1>VLNA - Análisis Modal</h1>
+         
           <p>Descripción: Análisis Modal.
           <br/>Autor: Jhandry Moreno
           <br/>Información: VLNA.pdf</p>
@@ -603,22 +648,19 @@
             </div>
         </div>--%>
 
-        
-        
 
+
+        
 
         <div class="container-fluid">
-            <div class="row flex">
-                <p></p>
-            </div>
-
+            
             <%--INPUT--%>
-            <div class="row">
+            <div class="row equal-height-panels">
                 <div class="col-md-3">
-                    <div class="panel panel-default panel-height">
+                    <div class="panel panel-default">
 
                         <div class="panel-heading">Análisis Modal</div>
-                        <div class="panel-body ">
+                        <div class="panel-body fixed-panel">
                             <asp:RadioButtonList ID="rbCategoria" runat="server" CssClass="radio input-xs" onclick="loadConfiguracionCtrlsGraficos();">
                                 <asp:ListItem class="radio-inline" Value="3" Selected="True">Vibración libre no amortiguada</asp:ListItem>
                                 <asp:ListItem class="radio-inline" Value="4">Vibración libre amortiguada</asp:ListItem>
@@ -633,10 +675,10 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="panel panel-default panel-height">
+                    <div class="panel panel-default">
 
                         <div class="panel-heading">Datos iniciales</div>
-                        <div class="panel-body">
+                        <div class="panel-body fixed-panel">
                             <form class="form-inline" role="form">
 
                                 <div class="form-group">
@@ -724,11 +766,12 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="panel panel-success panel-height">
+                    <div class="panel panel-success">
 
                         <div class="panel-heading">Esquema</div>
-                        <div class="panel-body ">
-                            <p>...</p>
+                        <div class="panel-body fixed-panel">
+                            <img src="../img/esquema/esquemaModal.PNG" class="img-responsive"/>
+
                         </div>
 
                         <table class="table">
