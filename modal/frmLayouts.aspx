@@ -30,7 +30,7 @@
             
             // solo para mostrar los espacios gráficos
             //borrarResultadoAnterior();
-            //graficarResultados();
+            graficarResultados();
             //graficarModosVibracion();
 
             // ajusta el tamaño de las columnaas
@@ -653,28 +653,28 @@
         
 
         <div class="container-fluid">
-            
+            <div class="page-header">
+                <h4>Entrada</h4>
+            </div>
             <%--INPUT--%>
             <div class="row equal-height-panels">
-                <div class="col-md-3">
+                <div class="col-xs-3 col-md-3">
                     <div class="panel panel-default">
 
                         <div class="panel-heading">Análisis Modal</div>
-                        <div class="panel-body fixed-panel">
+                        <div class="panel-body">
                             <asp:RadioButtonList ID="rbCategoria" runat="server" CssClass="radio input-xs" onclick="loadConfiguracionCtrlsGraficos();">
                                 <asp:ListItem class="radio-inline" Value="3" Selected="True">Vibración libre no amortiguada</asp:ListItem>
                                 <asp:ListItem class="radio-inline" Value="4">Vibración libre amortiguada</asp:ListItem>
                                 <asp:ListItem class="radio-inline" Value="5">Vibración armónica no amortiguada</asp:ListItem>
                                 <asp:ListItem class="radio-inline" Value="6">Vibración armónica amortiguada</asp:ListItem>
-
                             </asp:RadioButtonList>
-
                         </div>
 
 
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-xs-3 col-md-3">
                     <div class="panel panel-default">
 
                         <div class="panel-heading">Datos iniciales</div>
@@ -765,7 +765,7 @@
 
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-md-6">
                     <div class="panel panel-success">
 
                         <div class="panel-heading">Esquema</div>
@@ -774,13 +774,14 @@
 
                         </div>
 
-                        <table class="table">
-                        </table>
+                        
                     </div>
                 </div>
             </div>
 
-
+            <div class="page-header">
+                <h4>Resultados</h4>
+            </div>
             <%--RESULTADOS--%>
             <div class="row">
                 <div class="col-md-4">

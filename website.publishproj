@@ -44,5 +44,10 @@ Copyright (C) Microsoft Corporation. Todos los derechos reservados.
       <Value>$(AssemblyVersion)</Value>
     </AssemblyAttributes>
   </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+          <Reference Include="Func">
+            <HintPath>calculadora.dll</HintPath>
+          </Reference>
+        </ItemGroup>
   <Import Project="$(_WebPublishTargetsPath)\Web\Microsoft.WebSite.Publishing.targets" />
 </Project>

@@ -219,7 +219,7 @@ function graficarResultados(msg) {
     dataset.fill = true;
     dataset.lineTension = 0;
     dataset.pointRadius = 0;
-    dataset.backgroundColor = "rgb(255, 0, 0)";
+    dataset.backgroundColor = "rgb(096,111,140)";
     lineAllChartData.datasets[contLineas].data = dataPoints;
 
 
@@ -230,7 +230,7 @@ function graficarResultados(msg) {
             strokeColor: "rgba(255,255,255,1)",
             pointColor: "rgba(220,220,220,1)",
             pointStrokeColor: "#fff",
-            backgroundColor: "rgb(255, 0, 0)",
+            backgroundColor: "rgb(096,111,140)",
             pointRadius: 0.1,
             lineTension: 0,
             fill: true,
@@ -429,9 +429,13 @@ $(document).ready(function () {
     // control de los datos de entrada
     $('#H').hide("fast");
     $("#rbCategoria").click(function (event) {
+        var rutaImgEsquema;
+
         console.log("Ocultando elementos.");
         // obtiene el tipo de analísis modal
         var categoria = $('#rbCategoria input:checked').val();
+
+        console.log('Categoría: ' + categoria)
         
         if (categoria == 3) {
             $('#Ho').hide("fast");
@@ -460,7 +464,46 @@ $(document).ready(function () {
             document.getElementById("tbHF").required = true;
             
         }
+
+        if (categoria == 1) {
+            rutaImgEsquema = '../../Images/AnalisisEstatico/cp1_min.png';
+        } else if (categoria == 2) {
+            rutaImgEsquema = '../../Images/AnalisisEstatico/cp2_min.png';
+        } else {
+            rutaImgEsquema = '../../Images/AnalisisEstatico/cp3_min.png';
+        }
+
+        $("#FigMain").fadeOut(1000, function () {
+            $(this).attr('src', rutaImgEsquema);
+        }).fadeIn(1000);
+
+        
     });
 
+    /**
+      * Máximiza imagen de esquema
+      * Autor: Santiago Quiñones
+    */
+    $('#spanZoom').click(function () {
+        console.log('Maximizando elemento...');
 
+        var categoria = $('#rbCategoria input:checked').val();
+
+        if (categoria == 1) {
+            $('.imagepreview').attr('src', '../../Images/AnalisisEstatico/cp1_max.png');
+        } else if (categoria == 2) {
+            $('.imagepreview').attr('src', '../../Images/AnalisisEstatico/cp2_max.png');
+        } else {
+            $('.imagepreview').attr('src', '../../Images/AnalisisEstatico/cp3_max.png');
+        }
+
+        // abre la ventana modal
+        $('#imagemodal').modal('show');
+
+    });
+
+    $('#spanZoom').hover(function () {
+        console.log('Sobre el icono');
+        $(this).css('cursor', 'pointer');
+    });
 });

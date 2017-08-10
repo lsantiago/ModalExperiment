@@ -16,6 +16,7 @@ public partial class laboratorios_analisis_estatico_index : System.Web.UI.Page
 
     private static char[] delimiterChars = { ' ' };
 
+    
 
 
     // Obtiene los datos para el informe del experimento
@@ -80,7 +81,7 @@ public partial class laboratorios_analisis_estatico_index : System.Web.UI.Page
         file.Close();
 
         // ejecuta el modelo
-        //runModel();
+        runModel();
 
         // retorna los resultados
         return getResultados();

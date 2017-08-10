@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
+    <title>Cable Parabólico</title>
     <%--<script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/jquery.js"></script>
     <script src="../../js/jquery-ui.js"></script>
@@ -19,6 +19,7 @@
     <script src="../../js/Chart.min.js"></script>--%>
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <link href="../../Content/assets/css/experimentos/analisisestatico.css" rel="stylesheet" />
 
     <link href="../../css/change-boostrap.css" rel="stylesheet" />
     
@@ -42,22 +43,54 @@
 
 </head>
 <body>
+
+
     <form id="formAnalisiEstatico" runat="server">
-        <div class="page-header">
-            <h3>Cargas Distribuidas Uniformemente a lo largo de líneas Rectas</h3>
-        </div>
+        <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+                <p class="navbar-brand">CARGAS DISTRIBUIDAS UNIFORMEMENTE A LO LARGO DE LÍNEAS RECTAS</p>
+            </div>
 
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+              
+              
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Ayuda</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
         
-            <%--INPUT--%>
+        <div class="container-fluid">
+          
+          <p>Descripción: Análisis Estático.
+              <br/><b>Autores:</b> Duque, E.; Quiñones, S.; Pelaéz, D.
+              <br/>Información: AnalisisEstatico.pdf
+              <br/>
+              <br/>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">ENTRADA</div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-2 sinespacios ">
+          </p>
+               
+        </div> <!— /container —>
+        
+        
+
+         <%--INPUT--%>
+        <fieldset>
+            <legend><h5><b>Configuración del modelo</b></h5></legend>
+            <div class="row">
+                    <div class="col-md-2">
                         <div class="panel panel-default">
                             <div class="panel-heading">Evaluar en: </div>
-                            <div class="panel-body panel-height sinespacios highInputAnalisiEstatico">
+                            <div class="panel-body panel-height highInputAnalisiEstatico">
                                 <asp:RadioButtonList ID="rbCategoria" runat="server" CssClass="radio">
                                     <asp:ListItem class="radio-inline" Value="1" Selected="True">Caso 1: Ho < H<sub>F</sub> </asp:ListItem>
                                     <asp:ListItem class="radio-inline" Value="2">Caso 2: Ho > H<sub>F</sub></asp:ListItem>
@@ -229,27 +262,23 @@
 
                     </div>
                 </div>
-                     <div class="col-md-7 sinespacios highInputAnalisiEstatico">
+                     <div class="col-md-4 highInputAnalisiEstatico">
                         <div class="panel panel-default">
                             <div class="panel-heading">Esquema</div>
-                            <div class="panel-body highInputAnalisiEstatico">...</div>
+                            <div class="panel-body highInputAnalisiEstatico espacioImagen">
+                                <img id="FigMain" alt="tramo3" src="../../Images/AnalisisEstatico/cp1_min.png" style="width: 100%; height: 100%;" />
+                                <span id="spanZoom" class="glyphicon glyphicon-plus-sign zoom-btn fa fa-plus-circle"></span>
+                            </div>
 
                         </div>
                     </div>
             </div>
-
-        </div>
-
-
-
-        <%--OUTPUT--%>
-            <div class="panel panel-default">
-                <div class="panel-heading">SALIDA</div>
-                <div class="panel-body">
-
-   
-
-                    <div class="row col-condensed">
+         </fieldset>
+         
+         <%--OUTPUT--%>
+        <fieldset>
+            <h5><b>Resultados</b></h5>
+            <div class="row col-condensed">
                         <div class="col-md-3 sinespacios">
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -409,11 +438,20 @@
                             </div>
                         </div>
                     </div>
+        </fieldset>         
+    </form>
 
+    <!-- IMAGEN MODAL -->
+    <div class="modal fade bd-example-modal-lg" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" data-dismiss="modal">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <img src="" class="imagepreview" style="width: 100%;" />
                 </div>
             </div>
-
         </div>
-    </form>
+    </div>
+    <!--END IMAGEN MODAL -->
 </body>
 </html>

@@ -10,8 +10,8 @@ using System.Diagnostics;
 
 public partial class demos_frmLayouts : System.Web.UI.Page
 {
-    private static String PATH_FILE_OUT = "C:\\Modal\\modelo.txt";
-    private static String PATH_FILE_IN = "C:\\Modal\\output.txt";
+    private static String PATH_FILE_OUT = @"C:\vlee\modal\modelo.txt";
+    private static String PATH_FILE_IN = @"C:\vlee\modal\output.txt";
     private static char[] delimiterChars = { ' ' };
 
     protected void Page_Load(object sender, EventArgs e)
@@ -347,7 +347,7 @@ public partial class demos_frmLayouts : System.Web.UI.Page
     {
         // Run model
         ProcessStartInfo start = new ProcessStartInfo();
-        start.FileName = @"C:\Modal\Modal.exe";
+        start.FileName = @"C:\vlee\modal\Modal.exe";
         using (Process proc = Process.Start(start))
         {
             proc.WaitForExit();

@@ -11,12 +11,29 @@ using System.IO;
 public partial class experimento_Spectrum : System.Web.UI.Page
 {
     private static String PATH = @"C:\Users\Administrador\Documents\Visual Studio 2015\WebSites\VLEE\spectrum\";
+
     
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!Page.IsPostBack)
+        {
+            System.IO.DirectoryInfo dirAceleraciones = new DirectoryInfo(PATH + "aceleraciones\\");
+            System.IO.DirectoryInfo dirOutput = new DirectoryInfo(PATH + "output\\");
 
+            foreach (FileInfo file in dirAceleraciones.GetFiles())
+            {
+                file.Delete();
+            }
+
+            foreach (FileInfo file in dirOutput.GetFiles())
+            {
+                file.Delete();
+            }
+        }
     }
+
+    
 
     [WebMethod]
     public static void escribirAmortiguamiento(string value)
@@ -32,6 +49,8 @@ public partial class experimento_Spectrum : System.Web.UI.Page
 
     private static void runModel()
     {
+
+
         // Run model
         ProcessStartInfo start = new ProcessStartInfo();
         start.FileName = @PATH+"spectrum.exe";
