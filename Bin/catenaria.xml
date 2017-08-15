@@ -1,0 +1,760 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>catenaria</name>
+    </assembly>
+    <members>
+        <member name="T:catenaria.Class1">
+            <summary>
+            The Class1 class provides a CLS compliant, MWArray interface to the MATLAB
+            functions contained in the files:
+            <newpara></newpara>
+            D:\PROYECTOS\VLEE\ACTUALIZACION-VLEE\Catenaria\CableAnalisisEstaticoCatenariaFlecha.
+            m
+            <newpara></newpara>
+            deployprint.m
+            <newpara></newpara>
+            printdlg.m
+            </summary>
+            <remarks>
+            @Version 0.0
+            </remarks>
+        </member>
+        <member name="M:catenaria.Class1.#cctor">
+            <summary internal= "true">
+            The static constructor instantiates and initializes the MATLAB Compiler Runtime
+            instance.
+            </summary>
+        </member>
+        <member name="M:catenaria.Class1.#ctor">
+            <summary>
+            Constructs a new instance of the Class1 class.
+            </summary>
+        </member>
+        <member name="M:catenaria.Class1.Finalize">
+            <summary internal= "true">
+            Class destructor called by the CLR garbage collector.
+            </summary>
+        </member>
+        <member name="M:catenaria.Class1.Dispose">
+            <summary>
+            Frees the native resources associated with this object
+            </summary>
+        </member>
+        <member name="M:catenaria.Class1.Dispose(System.Boolean)">
+            <summary internal= "true">
+            Internal dispose function
+            </summary>
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha">
+             <summary>
+             Provides a single output, 0-input MWArrayinterface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 1-input MWArrayinterface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="Ho_in1">Input argument #1</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 2-input MWArrayinterface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="Ho_in1">Input argument #1</param>
+             <param name="Hf_in1">Input argument #2</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 3-input MWArrayinterface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="Ho_in1">Input argument #1</param>
+             <param name="Hf_in1">Input argument #2</param>
+             <param name="ER_in1">Input argument #3</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 4-input MWArrayinterface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="Ho_in1">Input argument #1</param>
+             <param name="Hf_in1">Input argument #2</param>
+             <param name="ER_in1">Input argument #3</param>
+             <param name="FS_in1">Input argument #4</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 5-input MWArrayinterface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="Ho_in1">Input argument #1</param>
+             <param name="Hf_in1">Input argument #2</param>
+             <param name="ER_in1">Input argument #3</param>
+             <param name="FS_in1">Input argument #4</param>
+             <param name="Wo_in1">Input argument #5</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(System.Int32)">
+             <summary>
+             Provides the standard 0-input MWArray interface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 1-input MWArray interface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="Ho_in1">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 2-input MWArray interface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="Ho_in1">Input argument #1</param>
+             <param name="Hf_in1">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 3-input MWArray interface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="Ho_in1">Input argument #1</param>
+             <param name="Hf_in1">Input argument #2</param>
+             <param name="ER_in1">Input argument #3</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 4-input MWArray interface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="Ho_in1">Input argument #1</param>
+             <param name="Hf_in1">Input argument #2</param>
+             <param name="ER_in1">Input argument #3</param>
+             <param name="FS_in1">Input argument #4</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 5-input MWArray interface to the
+             CableAnalisisEstaticoCatenariaFlecha MATLAB function.
+             </summary>
+             <remarks>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="Ho_in1">Input argument #1</param>
+             <param name="Hf_in1">Input argument #2</param>
+             <param name="ER_in1">Input argument #3</param>
+             <param name="FS_in1">Input argument #4</param>
+             <param name="Wo_in1">Input argument #5</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:catenaria.Class1.CableAnalisisEstaticoCatenariaFlecha(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray[]@,MathWorks.MATLAB.NET.Arrays.MWArray[])">
+             <summary>
+             Provides an interface for the CableAnalisisEstaticoCatenariaFlecha function in
+             which the input and output
+             arguments are specified as an array of MWArrays.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             M-Documentation:
+             ANÁLISIS ESTÁTICO DE CABLES                                  
+             CARGA DISTRIBUIDA UNIFORMEMENTE A LO LARGO DE CABLES
+             (CableAnalisisEstaticoCatenaria4)     
+             El peso de un cable lo somete a una carga uniformemente distribuida en toda su
+             longitud.   
+             Si un cable se somete a fuerzas iguales y paralelas espaciadas uniformemente,la
+             carga      
+             sobre el cable suele representarse uniformemente distribuida en toda su longitud.
+             En esta sección se muestra cómo determinar la forma resultante del cable y la
+             variación    
+             de su tensión.                                                                   
+             (To,Tf,Tmax,Tmin,Ho,Hf,S,Lo,Lf] = CableAnalisisEstaticoCatenaria4(L,FS,ER,Wo,B)  
+             Variables de entrada:                                                            
+             L  = Distancia entre los puntos O y P                                         (m)
+             Ho = Es la flecha o altura del punto inicial (O) hasta la máx deformada       (m)
+             Hf = Es la flecha o altura del punto final (F) hasta la máx deformada         (m)
+             FS = Factor de seguridad                                                 
+             (Adimensional)   
+             Wo = Es la magnitud de la carga distribuida                                  
+             (kg/m)       
+             ER = Esfuerzo de Ruptura del cable                                           
+             (KN)         
+             Variables de salida:                                                             
+             To   = Tensión en el punto inicial (O)                                       
+             (KN)         
+             Tf   = Tensión en el punto final (F)                                         
+             (KN)         
+             Tmax = La carga máxima segura de trabajo                                     
+             (KN)         
+             Tmin = La tensión mínima que soporta el cable, pendiente 0                   
+             (KN)         
+             Ho   = Es la flecha del punto inicial al punto con máxima deformación         (m)
+             Hf   = Es la flecha del punto final al punto con máxima deformación           (m)
+             Lo   = La longitud Total del cable                                            (m)
+             Lf   = La longitud Total del cable                                            (m)
+             S    = La longitud Total del cable                                            (m)
+             clc
+             close all
+             ---------------Desarrollo del Análisis----------------
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of MWArray output arguments</param>
+             <param name= "argsIn">Array of MWArray input arguments</param>
+            
+        </member>
+        <member name="M:catenaria.Class1.WaitForFiguresToDie">
+             <summary>
+             This method will cause a MATLAB figure window to behave as a modal dialog box.
+             The method will not return until all the figure windows associated with this
+             component have been closed.
+             </summary>
+             <remarks>
+             An application should only call this method when required to keep the
+             MATLAB figure window from disappearing.  Other techniques, such as calling
+             Console.ReadLine() from the application should be considered where
+             possible.</remarks>
+            
+        </member>
+    </members>
+</doc>
